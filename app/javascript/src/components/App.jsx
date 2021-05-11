@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { initializeLogger } from "common/logger";
 
 const App = () => {
-  return <h1 className="bg-blue-900">Thi si sapp</h1>;
+  useEffect(() => {
+    initializeLogger();
+    logger.info("Log from js logger");
+  }, []);
+
+  return <h1 className="bg-blue-900">This is app</h1>;
 };
 
 export default App;
