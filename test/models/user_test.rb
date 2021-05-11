@@ -3,12 +3,12 @@
 require 'test_helper'
 class UserTest < ActiveSupport::TestCase
   def setup
-    @user = User.new(first_name: 'shaddh', last_name: 'sssdhhd', email: 'sam@gmail.com',
+    @user = User.new(first_name: 'shadab', last_name: 'ali', email: 'sam@gmail.com',
                      password: 'mahirali')
   end
 
-  def test_user_should_be_valid
-    assert @user.valid?
+  def test_instance_of_user
+    assert_instance_of User, @user
   end
 
   def test_invalid_user_first_name
@@ -44,13 +44,6 @@ class UserTest < ActiveSupport::TestCase
     test_user = @user.dup
     assert_not test_user.valid?
     assert_equal ['Email has already been taken'], test_user.errors.full_messages
-  end
-
-  def test_lowwer_case_user_email
-    test_user = @user.email.downcase
-    @user.email == test_user
-    assert_not @user.valid?
-    assert_equal ["First name can't be blank"], @user.errors.full_messages
   end
 
   def test_validation_user_email
