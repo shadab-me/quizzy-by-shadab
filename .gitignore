@@ -38,6 +38,7 @@
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
-
+test/fixtures
+test/reports
 <%= stylesheet_link_tag 'application', media: 'all' %>
 <%= javascript_pack_tag 'application' %>
