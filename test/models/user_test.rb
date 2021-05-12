@@ -3,8 +3,8 @@
 require 'test_helper'
 class UserTest < ActiveSupport::TestCase
   def setup
-    @user = User.new(first_name: 'shadab', last_name: 'ali', email: 'Sam@gmail.com',
-                     password: 'mahirali', role: "administrator")
+    @user = User.new(first_name: 'shadab', last_name: 'ali', email: 'sam@gmail.com',
+                     password: 'mahirali', password_confirmation: 'mahirali', role: 'administrator')
   end
 
   def test_instance_of_user
@@ -55,22 +55,15 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  def test_invalid_user_email_case
-    test_user = User.new(first_name: 'shadab', last_name: 'ali', email: 'SAM@gmail.com',
-                         password: 'mahirali')
-    test_user.save!
-    assert_not @user.valid?
-  end
-
   def test_check_email_in_downcase
     test_email = @user.email.downcase!
-    @user.email = test_email;
+    @user.email = test_email
     assert true, @user.valid?
   end
 
   def test_valid_user_role
     puts @user.role
-    @user.role = "administrator" || "standard"
-    assert true,  @user.valid?
+    @user.role = 'administrator' || 'standard'
+    assert true, @user.valid?
   end
 end
