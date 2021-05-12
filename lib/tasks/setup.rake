@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+<<<<<<< HEAD
 desc "drops the db, creates db, migrates db and populates sample data"
 task setup: [:environment, "db:drop", "db:create", "db:migrate"] do
   Rake::Task["reset_and_populate_sample_data"].invoke if Rails.env.development?
@@ -19,6 +20,27 @@ task reset_and_populate_sample_data: [:environment] do
   else
     delete_all_records_from_all_tables
     Rake::Task["populate_sample_data"].invoke
+=======
+desc 'drops the db, creates db, migrates db and populates sample data'
+task setup: [:environment, 'db:drop', 'db:create', 'db:migrate'] do
+  Rake::Task['reset_and_populate_sample_data'].invoke if Rails.env.development?
+end
+desc 'Populates sample data without resetting the database first'
+task populate_sample_data: [:environment] do
+  create_sample_data!
+  puts 'sample data has been added.'
+end
+
+desc 'Populates sample data without after resetting the database'
+task reset_and_populate_sample_data: [:environment] do
+  if Rails.env.production?
+    puts 'Skipping deleting and populating sample data'
+  elsif Rails.env.staging?
+    puts 'Skipping deleting and populating sample data'
+  else
+    delete_all_records_from_all_tables
+    Rake::Task['populate_sample_data'].invoke
+>>>>>>> 25f0e10e819e5d23202078f4e94092968874722c
   end
 end
 
@@ -30,13 +52,20 @@ end
 #
 def delete_all_records_from_all_tables
   if Rails.env.production?
+<<<<<<< HEAD
     raise "deleting all records in production is not alllowed"
   else
     Rake::Task["db:schema:load"].invoke
+=======
+    raise 'deleting all records in production is not alllowed'
+  else
+    Rake::Task['db:schema:load'].invoke
+>>>>>>> 25f0e10e819e5d23202078f4e94092968874722c
   end
 end
 
 def create_sample_data!
+<<<<<<< HEAD
   create_user! email: "sam@example.com"
 end
 
@@ -46,6 +75,17 @@ def create_user!(options = {})
                       first_name: "Sam",
                       last_name: "Smith",
                       role: "administrator" }
+=======
+  create_user! email: 'sam@example.com'
+end
+
+def create_user!(options = {})
+  user_attributes = { password: 'welcome',
+                      password_confirmation: 'welcome',
+                      first_name: 'Sam',
+                      last_name: 'Smith',
+                      role: 'administrator' }
+>>>>>>> 25f0e10e819e5d23202078f4e94092968874722c
   attributes = user_attributes.merge options
   User.create! attributes
 end
