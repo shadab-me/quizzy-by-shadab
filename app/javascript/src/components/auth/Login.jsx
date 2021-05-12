@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-//import authApi from "apis/auth";
-//import { setToLocalStorage } from "helpers/storage";
-
+import auth from "apis/auth/auth";
 export default function Login(props) {
   const [user, setUser] = useState({
     email: "",
@@ -21,8 +19,7 @@ export default function Login(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    authApi.login({ login: user }).then(({ data }) => {
-      setToLocalStorage(data);
+    auth.login({ session: user }).then(({ data }) => {
       window.location.href = "/";
     });
   };
