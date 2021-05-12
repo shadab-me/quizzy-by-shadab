@@ -1,6 +1,5 @@
-# frozen_string_literal: true
-
-class User < ApplicationRecord
+ class User < ApplicationRecord
+  enum role: [:standard, :administrator]
   before_save :to_lowcase
   VALID_EMAIL_REGEX = /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i.freeze
   validates :first_name, presence: true, length: { maximum: 50 }
@@ -10,7 +9,6 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { minimum: 6 }
 
   private
-
   def to_lowcase
     email.downcase!
   end
