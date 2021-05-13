@@ -6,6 +6,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      session[:user_id] = @user_id
       render status: :created, json: { nottice: 'Successfully Created' }
     else
       render json: { error: @user.errors }
