@@ -12,8 +12,9 @@ import {
   Switch,
   Redirect,
 } from "react-router-dom";
-import Header from "./Header";
+import Header from "components/common/Header";
 import { func } from "prop-types";
+import Quizzes from "components/Quizzes";
 
 const App = () => {
   let [isLoggedIn, setLogged] = useState(false);
@@ -44,7 +45,7 @@ const App = () => {
 function UnAuthRoutes() {
   return (
     <Switch>
-      <Route path="/"  exact component={Home}></Route>
+      <Route path="/" exact component={Home}></Route>
       <Route path="/login" component={Login} />
     </Switch>
   );
@@ -53,7 +54,7 @@ function UnAuthRoutes() {
 function AuthRoutes() {
   return (
     <Switch>
-      <Route path="/" component={Home}></Route>
+      <Route path="/" component={Quizzes}></Route>
     </Switch>
   );
 }

@@ -12,7 +12,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_210_512_063_729) do
+ActiveRecord::Schema.define(version: 20_210_513_125_721) do
+  create_table 'quizzes', force: :cascade do |t|
+    t.string 'question'
+    t.integer 'create_by'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+  end
+
   create_table 'users', force: :cascade do |t|
     t.string 'first_name', null: false
     t.string 'last_name', null: false
@@ -22,4 +29,6 @@ ActiveRecord::Schema.define(version: 20_210_512_063_729) do
     t.integer 'role', default: 0
     t.string 'password_digest', null: false
   end
+
+  add_foreign_key 'quizzes', 'users', column: 'create_by'
 end

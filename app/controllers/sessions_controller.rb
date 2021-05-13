@@ -13,16 +13,16 @@ class SessionsController < ApplicationController
 
   def destroy
     if session[:user_id]
-    session[:user_id] = nil
-    redirect_to root_path, json: { notice: 'Incorrect credential, try again' }
+      session[:user_id] = nil
+      redirect_to root_path, json: { notice: 'Incorrect credential, try again' }
     end
   end
 
   def is_logged_in
-    if current_user 
-      render json:  {logged: true , user: current_user}
+    if current_user
+      render json: { logged: true, user: current_user }
     else
-      render json: {logged_in: false, user: "No such user"}
+      render json: { logged_in: false, user: 'No such user' }
     end
   end
 
