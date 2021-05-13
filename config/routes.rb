@@ -3,8 +3,8 @@
 Rails.application.routes.draw do
   resources :users, only: [:create]
   resources :sessions
-  get '/logged', to: "sessions#is_logged_in"
-  get '/logout', to: "sessions#destroy"
+  get '/logged', to: 'sessions#is_logged_in'
+  get '/logout', to: 'sessions#destroy'
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root 'home#index'

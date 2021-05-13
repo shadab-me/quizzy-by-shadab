@@ -12,13 +12,13 @@ gem 'sass-rails', '>= 6'
 
 gem 'webpacker', '~> 5.0'
 
-gem 'sqlite3', '~> 1.4', :group => [:development, :test]
+gem 'sqlite3', '~> 1.4', group: %i[development test]
 
 # React
 gem 'react-rails'
 
 # database
-gem 'pg', :group => [:production]
+gem 'pg', group: [:production]
 
 # Use Puma as the app server
 gem 'puma', '~> 5.0'
