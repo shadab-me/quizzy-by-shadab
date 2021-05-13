@@ -15,8 +15,10 @@ const successResponse = res => {
       Toastr.success(res.data.notice);
     }
   }
+
   return res;
 };
+
 const errorResponse = error => {
   Toastr.error(
     error.response?.data?.errors ||
