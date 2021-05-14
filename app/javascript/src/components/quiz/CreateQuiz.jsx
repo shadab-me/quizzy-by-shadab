@@ -15,9 +15,8 @@ const CreateQuiz = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     if (question.trim()) {
-      let quiz_data = { question };
+      let quiz_data = { title: question };
       let data = await quiz.create({ quiz_data });
-      console.log(data);
     } else {
       Toastr.error("Question can not blank!");
     }
