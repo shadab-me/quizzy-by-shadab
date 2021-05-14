@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import auth from "apis/auth/auth";
+import auth from "apis/auth";
 import { Link } from "react-router-dom";
 const Header = ({ isLoggedIn, currentUser }) => {
   const logOut = async () => {

@@ -1,16 +1,18 @@
+# frozen_string_literal: true
+
 class QuizzesController < ApplicationController
+  
     def create
-        create_by = current_user
-        @quiz = Quiz.new(...quiz_params, create_by)
-        if @quiz.save
-           render status: :create, json: {notice: "Quiz Create Successfully."}
-        else
-         render json: {errors: @quiz.errors}
-        end
-
+    puts current_user.id.to_i
+    @quiz = Quiz.new(quiz_params.merge(user_id: current_user.id.to_i))
+     if @quiz.save
+      render status: :created, json: { notice: 'Quiz created successfully.' }
+    else
+      render status: :unprocessable_entity, json: { error: @quiz.errors }
     end
+  end
 
-    def quiz_params
-        params.required(:quiz).permit(:question)
-    end
+  def quiz_params
+    params.required(:quiz_data).permit(:question)
+  end
 end

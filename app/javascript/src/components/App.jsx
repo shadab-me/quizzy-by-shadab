@@ -3,7 +3,7 @@ import { initializeLogger } from "common/logger";
 import { requestIntercepts } from "apis/axios";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import auth from "apis/auth/auth";
+import auth from "apis/auth";
 import Login from "components/auth/Login";
 import Home from "components/home/Home";
 import CreateQuiz from "components/quiz/CreateQuiz";

@@ -1,16 +1,23 @@
 import React, { useState } from "react";
 import Logger from "js-logger";
+import quiz from "apis/quiz";
+
 import Toastr from "components/common/Toastr";
 
 const CreateQuiz = () => {
   const [question, setQuestion] = useState("");
-  const changeHandler = ({ target }) => {
-    setQuestion(target.value);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setQuestion(value);
   };
-  const submitHandler = (e) => {
+
+  const submitHandler = async (e) => {
     e.preventDefault();
     if (question.trim()) {
-      Logger("yes");
+      let quiz_data = { question };
+      let data = await quiz.create({ quiz_data });
+      console.log(data);
     } else {
       Toastr.error("Question can not blank!");
     }
@@ -32,7 +39,7 @@ const CreateQuiz = () => {
           type="text"
           name="question "
           value={question}
-          onChange={changeHandler}
+          onChange={handleChange}
           className="block w-full p-3 rounded bg-gray-200 border border-transparent focus: outline-none"
         ></input>
         <button

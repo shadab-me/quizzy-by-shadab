@@ -9,7 +9,7 @@ class UsersController < ApplicationController
       session[:user_id] = @user_id
       render status: :created, json: { nottice: 'Successfully Created' }
     else
-      render  json: { error: @user.errors }
+      render json: { error: @user.errors }
     end
   end
 
