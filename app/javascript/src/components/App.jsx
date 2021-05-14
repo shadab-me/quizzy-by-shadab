@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import auth from "apis/auth/auth";
 import Login from "components/auth/Login";
 import Home from "components/home/Home";
+import CreateQuiz from "components/quiz/CreateQuiz";
 import {
   BrowserRouter as Router,
   Route,
@@ -54,7 +55,8 @@ function UnAuthRoutes() {
 function AuthRoutes() {
   return (
     <Switch>
-      <Route path="/" component={Quizzes}></Route>
+      <Route path="/" exact component={Quizzes}></Route>
+      <Route path="/create" exact component={CreateQuiz}></Route>
     </Switch>
   );
 }

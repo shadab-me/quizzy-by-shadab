@@ -9,7 +9,7 @@ const Header = ({ isLoggedIn, currentUser }) => {
 
   return (
     <>
-      <header className="bg-light shadow-xl p-4">
+      <header className="bg-light shadow-lg p-4">
         <nav className="flex justify-between">
           <h1 className="text-2xl font-bold">
             <Link to="/">Quizzy</Link>
