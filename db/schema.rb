@@ -12,10 +12,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_210_513_125_721) do
+ActiveRecord::Schema.define(version: 20_210_514_152_621) do
   create_table 'quizzes', force: :cascade do |t|
-    t.string 'question'
-    t.integer 'create_by'
+    t.string 'question', null: false
+    t.string 'user_id', null: false
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
   end
@@ -30,5 +30,5 @@ ActiveRecord::Schema.define(version: 20_210_513_125_721) do
     t.string 'password_digest', null: false
   end
 
-  add_foreign_key 'quizzes', 'users', column: 'create_by'
+  add_foreign_key 'quizzes', 'users'
 end

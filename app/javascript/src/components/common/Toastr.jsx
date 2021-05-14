@@ -28,7 +28,7 @@ const ToastrComponent = ({ type, message }) => {
 
 const showToastr = (message) => {
   toast.success(<ToastrComponent type="success" message={message} />, {
-    position: toast.POSITION.TOP_CENTER,
+    position: toast.POSITION.TOP_RIGHT,
     transition: Slide,
   });
 };

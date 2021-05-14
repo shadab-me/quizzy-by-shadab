@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import auth from "apis/auth/auth";
+import auth from "apis/auth";
 export default function Login(props) {
   const [user, setUser] = useState({
     email: "",
