@@ -2,10 +2,14 @@
 
 class QuizzesController < ApplicationController
   
-    def create
-    puts current_user.id.to_i
+  def index
+    @quizzes = Quiz.all
+    render status: :ok, json: { quizzess: @quizzes }
+  end
+
+  def create
     @quiz = Quiz.new(quiz_params.merge(user_id: current_user.id.to_i))
-     if @quiz.save
+    if @quiz.save
       render status: :created, json: { notice: 'Quiz created successfully.' }
     else
       render status: :unprocessable_entity, json: { error: @quiz.errors }
