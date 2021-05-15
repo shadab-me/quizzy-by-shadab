@@ -4,7 +4,7 @@ class QuizzesController < ApplicationController
   
   def index
     @quizzes = Quiz.all
-    render status: :ok, json: { quizzess: @quizzes }
+    render status: :ok, json: { quizzes: @quizzes }
   end
 
   def create

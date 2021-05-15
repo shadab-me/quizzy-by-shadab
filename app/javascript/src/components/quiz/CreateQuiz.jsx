@@ -5,17 +5,17 @@ import quiz from "apis/quiz";
 import Toastr from "components/common/Toastr";
 
 const CreateQuiz = () => {
-  const [question, setQuestion] = useState("");
+  const [title, setTitle] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setQuestion(value);
+    setTitle(value);
   };
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    if (question.trim()) {
-      let quiz_data = { question };
+    if (title.trim()) {
+      let quiz_data = { title };
       let data = await quiz.create({ quiz_data });
       console.log(data);
     } else {
@@ -29,7 +29,7 @@ const CreateQuiz = () => {
       </div>
       <form onSubmit={submitHandler}>
         <label
-          htmlFor="question"
+          htmlFor="title"
           className="block mb-2 text-sm font-medium text-gray-600"
         >
           Question
@@ -37,8 +37,8 @@ const CreateQuiz = () => {
         <input
           required
           type="text"
-          name="question "
-          value={question}
+          name="title "
+          value={title}
           onChange={handleChange}
           className="block w-full p-3 rounded bg-gray-200 border border-transparent focus: outline-none"
         ></input>

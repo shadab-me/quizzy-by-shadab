@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect, useMemo } from "react";
 import { initializeLogger } from "common/logger";
 import { requestIntercepts } from "apis/axios";
 import { ToastContainer } from "react-toastify";
@@ -15,7 +15,7 @@ import {
 } from "react-router-dom";
 import Header from "components/common/Header";
 import { func } from "prop-types";
-import Quizzes from "components/Quizzes";
+import Quizzes from "components/quiz/Quizzes";
 
 const App = () => {
   let [isLoggedIn, setLogged] = useState(false);
