@@ -14,10 +14,14 @@ const CreateQuiz = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+<<<<<<< HEAD
     if (title.trim()) {
       let quiz_data = { title };
+=======
+    if (question.trim()) {
+      let quiz_data = { title: question };
+>>>>>>> 01c5da29fd9c69e37f91a6838f32e273587d93fe
       let data = await quiz.create({ quiz_data });
-      console.log(data);
     } else {
       Toastr.error("Question can not blank!");
     }

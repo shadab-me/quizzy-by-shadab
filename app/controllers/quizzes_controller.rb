@@ -17,6 +17,6 @@ class QuizzesController < ApplicationController
   end
 
   def quiz_params
-    params.required(:quiz_data).permit(:question)
+    params.required(:quiz_data).permit(:title)
   end
 end
