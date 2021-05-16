@@ -5,7 +5,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import auth from "apis/auth";
 import Login from "components/Auth/Login";
-import Home from "components/Home/Home";
 import CreateQuiz from "components/Quiz/CreateQuiz";
 import UpdateQuiz from "components/Quiz/UpdateQuiz";
 import {
@@ -51,7 +50,7 @@ const App = () => {
 function UnAuthRoutes() {
   return (
     <Switch>
-      <Route path="/" exact component={Home}></Route>
+      <Route path="/" exact component={Login}></Route>
       <Route path="/login" component={Login} />
     </Switch>
   );

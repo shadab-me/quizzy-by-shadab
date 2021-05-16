@@ -2,8 +2,9 @@
 
 class QuizzesController < ApplicationController
   before_action :load_quiz, only: %i[show update destroy]
+
   def index
-    @quizzes = Quiz.all
+    @quizzes = Quiz.where(user_id: current_user.id)
     render status: :ok, json: { quizzes: @quizzes }
   end
 

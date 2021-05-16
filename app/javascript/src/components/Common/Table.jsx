@@ -63,7 +63,11 @@ export default function TableUI({ quizzes, handleDelete }) {
                       />
                       <Button
                         size="small"
-                        onClick={() => handleDelete(row.original.id)}
+                        onClick={() =>
+                          windows.confirm("Are are sure to delete this quiz?")
+                            ? handleDelete(row.original.id)
+                            : "null"
+                        }
                         buttonText="Delete"
                       />
                     </div>
