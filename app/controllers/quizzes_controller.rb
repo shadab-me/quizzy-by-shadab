@@ -9,9 +9,9 @@ class QuizzesController < ApplicationController
 
   def show
     if @quiz
-      render status: :ok, json: {quiz: @quiz}
+      render status: :ok, json: { quiz: @quiz }
     else
-      render status: :unprocessable_entity, json: {error: @quiz.errors.full_message}
+      render status: :unprocessable_entity, json: { error: @quiz.errors.full_message }
     end
   end
 
@@ -25,9 +25,9 @@ class QuizzesController < ApplicationController
   end
 
   def update
-     if @quiz.update(quiz_params)
+    if @quiz.update(quiz_params)
       render status: :ok, json: {
-        notice: 'Successfully updated'
+        notice: 'Successfully updated.'
       }
     else
       render status: unprocessable_entity, json: { errors: @quiz.errors.full_message }
@@ -35,21 +35,21 @@ class QuizzesController < ApplicationController
   end
 
   def destroy
-     if @quiz.destroy
-     render status: :ok, json: { notice:'Successfully deleted' } 
+    if @quiz.destroy
+      render status: :ok, json: { notice: 'Successfully deleted.' }
     else
       render status: unprocessable_entity, json: { errors: @quiz.errors.full_message }
 
     end
-
   end
 
- private
-   def load_quiz
+  private
+
+  def load_quiz
     @quiz = Quiz.find(params[:id])
-     rescue ActiveRecord::RecordNotFound => errors
-      render json: {errors: errors}
-   end
+  rescue ActiveRecord::RecordNotFound => e
+    render json: { errors: e }
+  end
 
   def quiz_params
     params.required(:quiz_data).permit(:title, :id)
