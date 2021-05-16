@@ -1,5 +1,5 @@
 import axios from "axios";
-import Toastr from "components/common/Toastr";
+import Toastr from "components/Common/Toastr";
 
 axios.defaults.headers = {
   Accept: "application/json",

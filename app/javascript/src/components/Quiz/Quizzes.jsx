@@ -1,19 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import quiz from "apis/quiz";
-import TableUI from "../common/Table";
+import TableUI from "components/Common/Table";
+import PageLoader from "components/Common/PageLoader";
 
 const Quizzes = () => {
-  const [quizzes, setQuizzes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [quizzes, setQuizzes] = useState("");
+
   const fetchQuiz = async () => {
     const { data } = await quiz.all();
     setQuizzes(data.quizzes);
+    setLoading(false);
   };
 
   useEffect(() => {
     fetchQuiz();
   }, []);
 
+  const handleDelete = async (id) => {
+    setLoading(true);
+    await quiz.delete(id);
+    await fetchQuiz();
+    setLoading(false);
+  };
+  if (loading) {
+    return <PageLoader />;
+  }
   if (quizzes.length < 1) {
     return (
       <main>
@@ -39,7 +52,7 @@ const Quizzes = () => {
       </div>
       <div className="quizzes-list">
         <h1 className="text-2xl flex justify-center items-center opacity-75">
-          {quizzes.length > 1 ? <TableUI quizzes={quizzes} /> : "loading"}
+          <TableUI quizzes={quizzes} handleDelete={handleDelete} />
         </h1>
       </div>
     </main>

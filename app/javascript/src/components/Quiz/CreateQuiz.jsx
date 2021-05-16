@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import Logger from "js-logger";
 import quiz from "apis/quiz";
 
-import Toastr from "components/common/Toastr";
+import Toastr from "components/Common/Toastr";
+import PageLoader from "../Common/PageLoader";
 
 const CreateQuiz = () => {
   const [title, setTitle] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -14,18 +16,17 @@ const CreateQuiz = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-<<<<<<< HEAD
+    setLoading(true);
     if (title.trim()) {
       let quiz_data = { title };
-=======
-    if (question.trim()) {
-      let quiz_data = { title: question };
->>>>>>> 01c5da29fd9c69e37f91a6838f32e273587d93fe
       let data = await quiz.create({ quiz_data });
+      setLoading(false);
+      window.location.href = "/";
     } else {
       Toastr.error("Question can not blank!");
     }
   };
+  if (loading) return <PageLoader />;
   return (
     <div className="container mx-auto w-1/2">
       <div className="max-w-md w-full mx-auto">
@@ -36,7 +37,7 @@ const CreateQuiz = () => {
           htmlFor="title"
           className="block mb-2 text-sm font-medium text-gray-600"
         >
-          Question
+          Quiz Title
         </label>
         <input
           required
