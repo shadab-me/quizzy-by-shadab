@@ -5,16 +5,18 @@ import Toastr from "components/Common/Toastr";
 import PageLoader from "components/Common/PageLoader";
 import QuizForm from "components/Quiz/QuizForm";
 
-const CreateQuiz = () => {
+const UpdateQuiz = () => {
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
+
+  const GetQuizToUpdate = () => {};
 
   const submitHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
     if (title.trim()) {
       let quiz_data = { title };
-      let data = await quiz.create({ quiz_data });
+      let data = await quiz.update({ quiz_data });
       setTimeout(() => {
         window.location.href = "/";
         setLoading(false);
@@ -27,10 +29,10 @@ const CreateQuiz = () => {
   return (
     <div className="container mx-auto w-1/2">
       <div className="max-w-md w-full mx-auto">
-        <h1 className="text-center text-4xl mt-10 font-bold">Add New Quiz</h1>
+        <h1 className="text-center text-4xl mt-10 font-bold">Update Quiz</h1>
       </div>
       <QuizForm
-        type="Create"
+        type="Update"
         title={title}
         setTitle={setTitle}
         submitHandler={submitHandler}
@@ -40,4 +42,4 @@ const CreateQuiz = () => {
   );
 };
 
-export default CreateQuiz;
+export default UpdateQuiz;

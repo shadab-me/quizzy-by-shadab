@@ -7,6 +7,7 @@ import auth from "apis/auth";
 import Login from "components/Auth/Login";
 import Home from "components/Home/Home";
 import CreateQuiz from "components/Quiz/CreateQuiz";
+import UpdateQuiz from "components/Quiz/UpdateQuiz";
 import {
   BrowserRouter as Router,
   Route,
@@ -61,6 +62,7 @@ function AuthRoutes() {
     <Switch>
       <Route path="/" exact component={Quizzes}></Route>
       <Route path="/create" exact component={CreateQuiz}></Route>
+      <Route path="/quizzes/:id/edit" exact component={UpdateQuiz}></Route>
     </Switch>
   );
 }

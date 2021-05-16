@@ -1,7 +1,7 @@
 import { useTable } from "react-table";
 import React from "react";
+import Button from "components/Button";
 export default function TableUI({ quizzes, handleDelete }) {
-  console.log(quizzes);
   const data = React.useMemo(() => quizzes, []);
 
   const columns = React.useMemo(
@@ -24,9 +24,9 @@ export default function TableUI({ quizzes, handleDelete }) {
     >
       <thead>
         {headerGroups.map((headerGroup) => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
+          <tr key={headerGroup} {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (
-              <th {...column.getHeaderProps()}>
+              <th key={column} {...column.getHeaderProps()}>
                 <h1 className="text-4xl mt-12 mb-6">
                   {" "}
                   {column.render("Header")}
@@ -40,10 +40,11 @@ export default function TableUI({ quizzes, handleDelete }) {
         {rows.map((row) => {
           prepareRow(row);
           return (
-            <tr {...row.getRowProps()}>
+            <tr key={row.original.id} {...row.getRowProps()}>
               {row.cells.map((cell) => {
                 return (
                   <td
+                    key={row.original.id}
                     {...cell.getCellProps()}
                     className="bg-gray-200 hover:transition-all flex justify-between"
                   >
@@ -53,16 +54,18 @@ export default function TableUI({ quizzes, handleDelete }) {
                         {cell.render("Cell")}{" "}
                       </a>
                     </div>
-                    <div className="actions">
-                      <button className="bg-blue-600 text-white text-lg p-1 rounded-sm focus:outline-none">
-                        Edit
-                      </button>
-                      <button
+                    <div className="flex justify-between items-center gap-x-2">
+                      <Button
+                        size="small"
+                        type="link"
+                        path={`/quizzes/${row.original.id}/edit`}
+                        buttonText="Edit"
+                      />
+                      <Button
+                        size="small"
                         onClick={() => handleDelete(row.original.id)}
-                        className="bg-red-600 text-white text-lg p-1 rounded-sm focus:outline-none"
-                      >
-                        Delete
-                      </button>
+                        buttonText="Delete"
+                      />
                     </div>
                   </td>
                 );
