@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import auth from "apis/auth";
+import PageLoader from "components/Common/PageLoader";
 export default function Login(props) {
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -17,13 +19,17 @@ export default function Login(props) {
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    auth.login({ session: user }).then(({ data }) => {
-      window.location.href = "/";
-    });
+    setLoading(true);
+    let { data } = await auth.login({ session: user });
+    setLoading(false);
+    window.location.href = "/";
   };
 
+  if (loading) {
+    return <PageLoader />;
+  }
   return (
     <>
       <div className="container mx-auto p-8 flex">

@@ -1,23 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect, useMemo } from "react";
 import { initializeLogger } from "common/logger";
 import { requestIntercepts } from "apis/axios";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import auth from "apis/auth";
-import Login from "components/auth/Login";
-import Home from "components/home/Home";
-import CreateQuiz from "components/quiz/CreateQuiz";
+import Login from "components/Auth/Login";
+import CreateQuiz from "components/Quiz/CreateQuiz";
+import UpdateQuiz from "components/Quiz/UpdateQuiz";
 import {
   BrowserRouter as Router,
   Route,
   Switch,
   Redirect,
 } from "react-router-dom";
-import Header from "components/common/Header";
-import { func } from "prop-types";
-import Quizzes from "components/Quizzes";
+import Header from "components/Common/Header";
+import Quizzes from "components/Quiz/Quizzes";
+import PageLoader from "components/Common/PageLoader";
 
 const App = () => {
+  let [loading, setLoading] = useState(true);
   let [isLoggedIn, setLogged] = useState(false);
   let [currentUser, setCurrentUser] = useState({});
 
@@ -25,6 +26,7 @@ const App = () => {
     let user = await auth.logged();
     setLogged(user.data.logged);
     setCurrentUser(user.data.user);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -33,6 +35,8 @@ const App = () => {
     logger.info("Log from js logger");
     getCurrentUser();
   }, []);
+
+  if (loading) return <PageLoader />;
 
   return (
     <Router>
@@ -46,7 +50,7 @@ const App = () => {
 function UnAuthRoutes() {
   return (
     <Switch>
-      <Route path="/" exact component={Home}></Route>
+      <Route path="/" exact component={Login}></Route>
       <Route path="/login" component={Login} />
     </Switch>
   );
@@ -57,6 +61,7 @@ function AuthRoutes() {
     <Switch>
       <Route path="/" exact component={Quizzes}></Route>
       <Route path="/create" exact component={CreateQuiz}></Route>
+      <Route path="/quizzes/:id/edit" exact component={UpdateQuiz}></Route>
     </Switch>
   );
 }
