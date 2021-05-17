@@ -17,7 +17,7 @@ class QuizPolicy
   end
 
   def create?
-    @user.role == 'administrator'
+   true
   end
 
   def destroy?
