@@ -13,7 +13,6 @@ const UpdateQuiz = () => {
 
   const GetQuizToUpdate = async () => {
     const { data } = await quiz.one(id);
-    console.log(data.quiz.title);
     setTitle(data.quiz.title);
     setLoading(false);
   };
