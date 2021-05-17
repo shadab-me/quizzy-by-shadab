@@ -44,8 +44,8 @@ const SingleQuiz = () => {
   }
   return (
     <main>
-      <div className="title">
-        <h1>{title}</h1>
+      <div className="title mt-6">
+        <h1 className="text-3xl opacity-50 m-2 p-5 font-bold">{title}</h1>
       </div>
 
       <div className="flex justify-end">
