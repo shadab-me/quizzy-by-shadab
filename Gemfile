@@ -23,6 +23,9 @@ gem 'pg', group: [:production]
 # Use Puma as the app server
 gem 'puma', '~> 5.0'
 
+# authorization
+gem 'pundit'
+
 # Builder JSON
 gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production

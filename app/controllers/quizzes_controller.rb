@@ -2,6 +2,7 @@
 
 class QuizzesController < ApplicationController
   before_action :load_quiz, only: %i[show update destroy]
+  before_action :authorize_quiz, only: %i[create update destroy]
 
   def index
     @quizzes = Quiz.where(user_id: current_user.id)
@@ -50,6 +51,11 @@ class QuizzesController < ApplicationController
     @quiz = Quiz.find(params[:id])
   rescue ActiveRecord::RecordNotFound => e
     render json: { errors: e }
+  end
+
+  def authorize_quiz
+    puts authorize @quiz
+    print 'I am here'
   end
 
   def quiz_params
