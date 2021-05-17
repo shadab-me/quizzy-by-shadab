@@ -3,7 +3,7 @@ import Logger from "js-logger";
 import quiz from "apis/quiz";
 import Toastr from "components/Common/Toastr";
 import PageLoader from "components/Common/PageLoader";
-import QuizForm from "components/Quiz/QuizForm";
+import QuizForm from "components/Form/QuizForm";
 
 const CreateQuiz = () => {
   const [loading, setLoading] = useState(false);

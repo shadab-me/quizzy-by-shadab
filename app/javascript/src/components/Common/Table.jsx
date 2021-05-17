@@ -1,6 +1,7 @@
 import { useTable } from "react-table";
 import React from "react";
 import Button from "components/Button";
+import { Link } from "react-router-dom";
 export default function TableUI({ quizzes, handleDelete }) {
   const data = React.useMemo(() => quizzes, []);
 
@@ -49,10 +50,13 @@ export default function TableUI({ quizzes, handleDelete }) {
                     className="bg-gray-200 hover:transition-all flex justify-between"
                   >
                     <div className="title">
-                      <a href="" className="p-3 text-lg text-blue-600">
+                      <Link
+                        to={`/quizzes/${row.original.id}`}
+                        className="p-3 text-lg text-blue-600"
+                      >
                         {" "}
                         {cell.render("Cell")}{" "}
-                      </a>
+                      </Link>
                     </div>
                     <div className="flex justify-between items-center gap-x-2">
                       <Button
