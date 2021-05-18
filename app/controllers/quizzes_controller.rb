@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class QuizzesController < ApplicationController
+  before_action :authenticate_user_using_session
   before_action :load_quiz, only: %i[show update destroy]
   before_action :authorize_quiz, only: %i[update destroy]
 
@@ -53,8 +54,9 @@ class QuizzesController < ApplicationController
     render json: { errors: e }
   end
 
+
   def authorize_quiz
-      authorize @quiz
+    authorize @quiz
   end
 
   def quiz_params

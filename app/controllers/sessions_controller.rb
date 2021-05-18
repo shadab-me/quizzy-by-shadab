@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class SessionsController < ApplicationController
+   before_action :authenticate_user_using_session, only: %i[is_logged_in]
+
   def create
     @user = User.find_by(email: params[:session][:email].downcase)
     if @user.present? && @user.authenticate(params[:session][:password])
@@ -14,7 +16,7 @@ class SessionsController < ApplicationController
   def destroy
     if session[:user_id]
       session[:user_id] = nil
-      redirect_to root_path, json: { notice: 'Incorrect credential, try again' }
+      redirect_to root_path
     end
   end
 
