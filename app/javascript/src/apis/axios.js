@@ -31,6 +31,9 @@ const errorResponse = error => {
   if (error.response?.status === 423) {
     window.location.href = "/";
   }
+  if (error.response?.status === 401) {
+    window.location.href = "/login";
+  }
   return Promise.reject(error);
 };
 export const requestIntercepts = () => {

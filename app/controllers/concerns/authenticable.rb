@@ -8,7 +8,7 @@ module Authenticable
       @user = User.find_by(id: session[:user_id])
       @current_user = @user
     else
-      redirect_to root_path, json: { errors: [t('session.could_not_auth')]}
+       render json: { errors: [t('session.could_not_auth')]}
     end
   end
 
