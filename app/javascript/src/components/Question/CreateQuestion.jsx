@@ -8,12 +8,31 @@ import QuestionForm from "components/Form/QuestionForm";
 const CreateQuestion = () => {
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
+  const [correctAnswer, setCorrectAnswer] = useState("");
+
+  const [answers, setAnswers] = useState([
+    { value: "", is_correct: false },
+    { value: "", is_correct: false },
+  ]);
+
+  const correctAnswerHandler = (value) => {
+    setCorrectAnswer(value);
+  };
+
+  const addInputHandler = () => {
+    setAnswers([...answers, { value: "", is_correct: false }]);
+  };
+  const removeInputHandler = (index) => {
+    let updatedData = [...answers];
+    updatedData.splice(index, 1);
+    setAnswers(updatedData);
+  };
 
   const submitHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
     if (title.trim()) {
-      let quiz_data = { title };
+      let question = { title, answers };
       let data = await quiz.create({ quiz_data });
       setTimeout(() => {
         window.location.href = "/";
@@ -23,11 +42,15 @@ const CreateQuestion = () => {
       Toastr.error("Question can not blank!");
     }
   };
+
   if (loading) return <PageLoader />;
+
   return (
     <div className="container mx-auto w-1/2">
       <div className="max-w-md w-full mx-auto">
-        <h1 className="text-center text-4xl mt-10 font-bold">Add New Quiz</h1>
+        <h1 className="text-center text-4xl mt-10 font-bold">
+          Add new question
+        </h1>
       </div>
       <QuestionForm
         type="Create"
@@ -35,6 +58,11 @@ const CreateQuestion = () => {
         setTitle={setTitle}
         submitHandler={submitHandler}
         loading={loading}
+        answers={answers}
+        addInputHandler={addInputHandler}
+        removeInputHandler={removeInputHandler}
+        setAnswers={setAnswers}
+        correctAnswerHandler={correctAnswerHandler}
       />
     </div>
   );

@@ -12,7 +12,7 @@ const QuizFrom = ({ type, title, setTitle, loading, submitHandler }) => {
         onChange={(e) => setTitle(e.target.value)}
       />
       <div className="mt-6">
-        <Button type="submit" buttonText={type} loading={loading}></Button>
+        <Button size = "medium" type="submit" buttonText={type} loading={loading}></Button>
       </div>
     </form>
   );
