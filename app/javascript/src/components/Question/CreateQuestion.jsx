@@ -1,33 +1,62 @@
 import React, { useState } from "react";
-import Logger from "js-logger";
-import quiz from "apis/quiz";
-import Toastr from "components/Common/Toastr";
 import PageLoader from "components/Common/PageLoader";
 import QuestionForm from "components/Form/QuestionForm";
+import question from "apis/question";
+import { useParams, useHistory } from "react-router-dom";
 
 const CreateQuestion = () => {
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
+  const [correctAnswer, setCorrectAnswer] = useState("");
+  const { id } = useParams();
+  const history = useHistory();
+  const [answers, setAnswers] = useState([
+    { value: "", is_correct: false },
+    { value: "", is_correct: false },
+  ]);
+
+  const correctAnswerHandler = (value) => {
+    setCorrectAnswer(value);
+  };
+
+  const addInputHandler = () => {
+    setAnswers([...answers, { value: "", is_correct: false }]);
+  };
+
+  const removeInputHandler = (index) => {
+    let updatedData = [...answers];
+    updatedData.splice(index, 1);
+    setAnswers(updatedData);
+  };
 
   const submitHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
-    if (title.trim()) {
-      let quiz_data = { title };
-      let data = await quiz.create({ quiz_data });
-      setTimeout(() => {
-        window.location.href = "/";
-        setLoading(false);
-      }, 3500);
-    } else {
-      Toastr.error("Question can not blank!");
+    try {
+      let dataWithCorrectAnswer = [...answers];
+      dataWithCorrectAnswer[correctAnswer].is_correct = true;
+      let quiz_id = id;
+      let questionData = {
+        title,
+        quiz_id,
+        answers_attributes: dataWithCorrectAnswer,
+      };
+      const data = await question.create({ question: questionData });
+      setLoading(false);
+      history.push(`/quizzes/${id}`);
+    } catch (error) {
+      logger(error);
     }
   };
+
   if (loading) return <PageLoader />;
+
   return (
     <div className="container mx-auto w-1/2">
       <div className="max-w-md w-full mx-auto">
-        <h1 className="text-center text-4xl mt-10 font-bold">Add New Quiz</h1>
+        <h1 className="text-center text-4xl mt-10 font-bold">
+          Add new question
+        </h1>
       </div>
       <QuestionForm
         type="Create"
@@ -35,6 +64,11 @@ const CreateQuestion = () => {
         setTitle={setTitle}
         submitHandler={submitHandler}
         loading={loading}
+        answers={answers}
+        addInputHandler={addInputHandler}
+        removeInputHandler={removeInputHandler}
+        setAnswers={setAnswers}
+        correctAnswerHandler={correctAnswerHandler}
       />
     </div>
   );

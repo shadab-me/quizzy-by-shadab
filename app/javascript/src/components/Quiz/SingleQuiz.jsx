@@ -31,7 +31,7 @@ const SingleQuiz = () => {
         </div>
         <div className="flex justify-end mt-6">
           <button className="bg-blue-700 text-blue-100 rounded-sm p-2 mt-4 mr-3 m-2 outline-none focus:outline-none shadow-sm">
-            <Link to="/question/new">Add question</Link>
+            <Link to={`/${id}/question/new`}>Add question</Link>
           </button>
         </div>
         <div className="question-list mt-6">
@@ -50,7 +50,7 @@ const SingleQuiz = () => {
 
       <div className="flex justify-end">
         <button className="bg-blue-700 text-blue-100 rounded-sm p-2 mt-10 mr-3 outline-none focus:outline-none shadow-sm">
-          <Link to="/question/new">Add question</Link>
+          <Link to={`/${id}/question/new`}>Add question</Link>
         </button>
       </div>
       <div className="question-list">

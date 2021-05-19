@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import Logger from "js-logger";
-import quiz from "apis/quiz";
+import React, { useState } from "react";import quiz from "apis/quiz";
 import Toastr from "components/Common/Toastr";
 import PageLoader from "components/Common/PageLoader";
 import QuizForm from "components/Form/QuizForm";

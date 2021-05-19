@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :questions
   resources :users, only: [:create]
   resources :sessions
   get '/logged', to: 'sessions#is_logged_in'
