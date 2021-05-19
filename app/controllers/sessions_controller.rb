@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
     @user = User.find_by(email: params[:session][:email].downcase)
     if @user.present? && @user.authenticate(params[:session][:password])
       session[:user_id] = @user.id
-      redirect_to root_path, json: { notice: 'Incorrect credential, try again' }
+      render status: :ok, json: { notice: 'logged in successfully' }
     else
       render status: :unauthorized, json: { notice: 'Incorrect credential, try again' }
     end
