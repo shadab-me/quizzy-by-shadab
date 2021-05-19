@@ -3,20 +3,17 @@
 class QuestionsController < ApplicationController
   before_action :set_question, only: %i[show edit update destroy]
   before_action :authenticate_user_using_session, only: %i[create]
+  before_action :load_answers, only: %i[index]
 
   def index
     @questions = Question.where(quiz_id: params[:id])
-    render status: :ok, json: { questions: @question }
-  end
-
-  def show
-    render
+    render status: :ok, json: { questions: @question, answers: @answers }
   end
 
   def create
     @question = Question.new(question_params)
     if @question.save
-      render status: :created, json: { notice: 'Question created successfully.' }
+      render status: :created, json: { notice: 'Sucessfully Created' }
     else
       render status: :unprocessable_entity, json: { errors: @question.errors }
     end
@@ -32,7 +29,7 @@ class QuestionsController < ApplicationController
 
   def destroy
     if @question.destroy
-      render status: :ok, json: { notice: 'Successfully deleted.' }
+      render status: :ok, json: { notice: 'Successfully deleted' }
     else
       render status: unprocessable_entity, json: { errors: @question.errors }
     end
@@ -42,6 +39,12 @@ class QuestionsController < ApplicationController
 
   def set_question
     @question = Question.find(params[:id])
+  end
+
+  def load_answers
+    @answers = Answer.where(question_id: @question_id)
+  rescue ActiveRecord::RecordNotFound => e
+    render json: { errors: e }
   end
 
   def question_params

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class SessionsController < ApplicationController
-   before_action :authenticate_user_using_session, only: %i[is_logged_in]
 
   def create
     @user = User.find_by(email: params[:session][:email].downcase)

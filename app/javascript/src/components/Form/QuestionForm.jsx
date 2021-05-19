@@ -32,7 +32,7 @@ const QuestionForm = ({
         <div className="mb-2">
           {answers?.map((item, index) => {
             return (
-              <div className="flex items-center">
+              <div className="flex items-center" key={index}>
                 <Input
                   key={index}
                   label={`Answer ${index + 1}`}
@@ -41,7 +41,7 @@ const QuestionForm = ({
                   onChange={(e) => answersChange(e, index)}
                 />
                 {index > 1 && (
-                  <div className="mt-12">
+                  <div className="mt-12" key={index}>
                     <a
                       className="mt-12 cursor-pointer"
                       onClick={() => removeInputHandler(index)}
@@ -85,6 +85,7 @@ const QuestionForm = ({
       </label>
 
       <select
+        required
         onChange={({ target }) => correctAnswerHandler(target.value)}
         name="select"
         className="block f-full px-3 py-2 placeholder-gray-400
@@ -94,7 +95,7 @@ const QuestionForm = ({
           focus:border-purple-600 sm:text-sm sm:leading-5"
       >
         <option value="" selected disabled hidden>
-          Correct Answer
+          Select correct answer
         </option>
         {answers.map((answer, index) => (
           <option value={index}>{answer.value}</option>
