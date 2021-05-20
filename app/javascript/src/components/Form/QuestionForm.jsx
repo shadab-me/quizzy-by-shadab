@@ -43,16 +43,19 @@ const QuestionForm = ({
                 {index > 1 && (
                   <div className="mt-12" key={index}>
                     <a
+                      key={index}
                       className="mt-12 cursor-pointer"
                       onClick={() => removeInputHandler(index)}
                     >
                       <svg
+                        key={index}
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
                         width="24"
                         height="24"
                       >
                         <path
+                          key={index}
                           fill-rule="evenodd"
                           d="M16 1.75V3h5.25a.75.75 0 010 1.5H2.75a.75.75 0 010-1.5H8V1.75C8 .784 8.784 0 9.75 0h4.5C15.216 0 16 .784 16 1.75zm-6.5 0a.25.25 0 01.25-.25h4.5a.25.25 0 01.25.25V3h-5V1.75z"
                         ></path>
@@ -98,7 +101,9 @@ const QuestionForm = ({
           Select correct answer
         </option>
         {answers.map((answer, index) => (
-          <option value={index}>{answer.value}</option>
+          <option key={index} value={index}>
+            {answer.value}
+          </option>
         ))}
       </select>
       <div className="mt-6">

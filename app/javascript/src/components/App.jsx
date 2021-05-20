@@ -19,6 +19,7 @@ import {
 import Header from "components/Common/Header";
 import Quizzes from "components/Quiz/Quizzes";
 import PageLoader from "components/Common/PageLoader";
+import UpdateQuestion from "components/Question/UpdateQuestion";
 
 const App = () => {
   let [loading, setLoading] = useState(true);
@@ -64,9 +65,10 @@ function AuthRoutes() {
     <Switch>
       <Route path="/" exact component={Quizzes}></Route>
       <Route path="/create" exact component={CreateQuiz}></Route>
-      <Route path="/quizzes/:id/edit" exact component={UpdateQuiz}></Route>
-      <Route path="/quizzes/:id" exact component={SingleQuiz}></Route>
+      <Route path="/quiz/:id/edit" exact component={UpdateQuiz}></Route>
+      <Route path="/quiz/:id" exact component={SingleQuiz}></Route>
       <Route path="/:id/question/new" exact component={CreateQuestion}></Route>
+      <Route path="/edit/question/:id" exact component={UpdateQuestion}></Route>
     </Switch>
   );
 }
