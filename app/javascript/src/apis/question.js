@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const quiz = {
+const question = {
   all: () => axios.get("/questions"),
   one: id => axios.get(`/questions/${id}`),
   create: payload => axios.post("/questions", payload),
@@ -8,4 +8,4 @@ const quiz = {
   update: (id, payload) => axios.put(`/questions/${id}`, payload),
 };
 
-export default quiz;
+export default question;

@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PageLoader from "components/Common/PageLoader";
 import QuestionForm from "components/Form/QuestionForm";
 import question from "apis/question";
 import { useParams, useHistory } from "react-router-dom";
-
-const CreateQuestion = () => {
+const UpdateQuestion = () => {
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [correctAnswer, setCorrectAnswer] = useState("");
@@ -15,6 +14,22 @@ const CreateQuestion = () => {
     { value: "", is_correct: false },
   ]);
 
+  const getCurrentQuestion = async () => {
+    try {
+      setLoading(true);
+      let { data } = await question.one(id);
+      setTitle(data.question.title);
+      let correctIndex = data.answers.findIndex((answer) => answer.is_correct);
+      setCorrectAnswer(correctIndex);
+      let RowData = [...data.answers];
+      RowData[correctIndex].is_correct = false;
+      setAnswers(data.answers);
+      setLoading(false);
+    } catch (error) {
+      logger(error);
+      setLoading(false);
+    }
+  };
   const correctAnswerHandler = (value) => {
     setCorrectAnswer(value);
   };
@@ -35,19 +50,22 @@ const CreateQuestion = () => {
     try {
       let dataWithCorrectAnswer = [...answers];
       dataWithCorrectAnswer[correctAnswer].is_correct = true;
-      let quiz_id = id;
       let questionData = {
         title,
-        quiz_id,
         answers_attributes: dataWithCorrectAnswer,
       };
-      const data = await question.create({ question: questionData });
+      const data = await question.update(id, { question: questionData });
       setLoading(false);
-      history.push(`/quiz/${id}`);
+      history.goBack();
     } catch (error) {
+      setAnswers(false);
       logger(error);
     }
   };
+
+  useEffect(() => {
+    getCurrentQuestion();
+  }, []);
 
   if (loading) return <PageLoader />;
 
@@ -55,7 +73,7 @@ const CreateQuestion = () => {
     <div className="container mx-auto w-1/2">
       <div className="max-w-md w-full mx-auto">
         <h1 className="text-center text-4xl mt-10 font-bold">
-          Add new question
+          Update question
         </h1>
       </div>
       <QuestionForm
@@ -74,4 +92,4 @@ const CreateQuestion = () => {
   );
 };
 
-export default CreateQuestion;
+export default UpdateQuestion;

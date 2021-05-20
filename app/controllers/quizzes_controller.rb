@@ -3,6 +3,8 @@
 class QuizzesController < ApplicationController
   before_action :authenticate_user_using_session
   before_action :load_quiz, only: %i[show update destroy]
+  before_action :load_question, only: %i[show]
+
   before_action :authorize_quiz, only: %i[update destroy]
 
   def index
@@ -11,19 +13,18 @@ class QuizzesController < ApplicationController
   end
 
   def show
-    if @quiz
-      render status: :ok, json: { quiz: @quiz }
+    if(@question)
+    render status: :ok, json: { quiz: @quiz, questions: @questions.as_json }
     else
-      render status: :unprocessable_entity, json: { error: @quiz.errors.full_message }
+            render status: :unprocessable_entity, json: { errors: @question.errors}
     end
   end
-
   def create
     @quiz = Quiz.new(quiz_params.merge(user_id: current_user.id.to_i))
     if @quiz.save
       render status: :created, json: { notice: 'Quiz created successfully.' }
     else
-      render status: :unprocessable_entity, json: { error: @quiz.errors.full_message }
+      render status: :unprocessable_entity, json: { errors: @quiz.errors }
     end
   end
 
@@ -33,7 +34,7 @@ class QuizzesController < ApplicationController
         notice: 'Successfully updated.'
       }
     else
-      render status: unprocessable_entity, json: { errors: @quiz.errors.full_message }
+      render status: unprocessable_entity, json: { errors: @quiz.error }
     end
   end
 
@@ -54,6 +55,16 @@ class QuizzesController < ApplicationController
     render json: { errors: e }
   end
 
+  def load_question
+    @questions = Question.where(quiz_id: @quiz.id).map do |question|
+      {
+        question: question,
+        answers: question.answers
+      }
+    end
+  rescue ActiveRecord::RecordNotFound => e
+    render json: { errors: e }
+  end
 
   def authorize_quiz
     authorize @quiz

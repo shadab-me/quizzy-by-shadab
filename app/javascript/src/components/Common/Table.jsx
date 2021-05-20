@@ -51,7 +51,7 @@ export default function TableUI({ quizzes, handleDelete }) {
                   >
                     <div className="title">
                       <Link
-                        to={`/quizzes/${row.original.id}`}
+                        to={`/quiz/${row.original.id}`}
                         className="p-3 text-lg text-blue-600"
                       >
                         {" "}
@@ -62,7 +62,7 @@ export default function TableUI({ quizzes, handleDelete }) {
                       <Button
                         size="small"
                         type="link"
-                        path={`/quizzes/${row.original.id}/edit`}
+                        path={`/quiz/${row.original.id}/edit`}
                         buttonText="Edit"
                       />
                       <Button

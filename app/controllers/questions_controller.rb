@@ -3,11 +3,20 @@
 class QuestionsController < ApplicationController
   before_action :set_question, only: %i[show edit update destroy]
   before_action :authenticate_user_using_session, only: %i[create]
-  before_action :load_answers, only: %i[index]
+  before_action :load_answers, only: %i[show update index]
+  before_action :delete_answers, only: %i[update]
 
   def index
     @questions = Question.where(quiz_id: params[:id])
     render status: :ok, json: { questions: @question, answers: @answers }
+  end
+
+  def show
+    if @question
+      render status: :ok, json: { question: @question, answers: @answers }
+    else
+      render status: unprocessable_entity, json: { errors: @question.errors }
+    end
   end
 
   def create
@@ -21,7 +30,7 @@ class QuestionsController < ApplicationController
 
   def update
     if @question.update(question_params)
-      render status: :ok, location: @question
+      render status: :ok, json: { notice: 'Sucessfully Updated' }
     else
       render status: :unprocessable_entity, json: { errors: @question.errors }
     end
@@ -42,7 +51,13 @@ class QuestionsController < ApplicationController
   end
 
   def load_answers
-    @answers = Answer.where(question_id: @question_id)
+    @answers = Answer.where(question_id: @question.id)
+  rescue ActiveRecord::RecordNotFound => e
+    render json: { errors: e }
+  end
+
+  def delete_answers
+    @answers.destroy_all
   rescue ActiveRecord::RecordNotFound => e
     render json: { errors: e }
   end
