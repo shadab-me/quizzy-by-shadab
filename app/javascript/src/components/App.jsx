@@ -28,7 +28,6 @@ const App = () => {
 
   const getCurrentUser = async () => {
     let user = await auth.logged();
-    console.log(user);
     setLogged(user.data.logged);
     setCurrentUser(user.data.user);
     setLoading(false);
