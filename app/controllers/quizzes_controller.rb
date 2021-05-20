@@ -13,12 +13,13 @@ class QuizzesController < ApplicationController
   end
 
   def show
-    if(@question)
-    render status: :ok, json: { quiz: @quiz, questions: @questions.as_json }
+    if @quiz
+      render status: :ok, json: { quiz: @quiz, questions: @questions.as_json }
     else
-            render status: :unprocessable_entity, json: { errors: @question.errors}
+      render status: :unprocessable_entity, json: { errors: @questions.errors }
     end
   end
+
   def create
     @quiz = Quiz.new(quiz_params.merge(user_id: current_user.id.to_i))
     if @quiz.save
@@ -34,7 +35,7 @@ class QuizzesController < ApplicationController
         notice: 'Successfully updated.'
       }
     else
-      render status: unprocessable_entity, json: { errors: @quiz.error }
+      render status: :unprocessable_entity, json: { errors: @quiz.errors }
     end
   end
 
@@ -42,8 +43,7 @@ class QuizzesController < ApplicationController
     if @quiz.destroy
       render status: :ok, json: { notice: 'Successfully deleted.' }
     else
-      render status: unprocessable_entity, json: { errors: @quiz.errors.full_message }
-
+      render status: :unprocessable_entity, json: { errors: @quiz.errors }
     end
   end
 

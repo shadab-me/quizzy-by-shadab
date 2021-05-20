@@ -15,7 +15,7 @@ class QuestionsController < ApplicationController
     if @question
       render status: :ok, json: { question: @question, answers: @answers }
     else
-      render status: unprocessable_entity, json: { errors: @question.errors }
+      render status: :unprocessable_entity, json: { errors: @question.errors }
     end
   end
 
@@ -40,7 +40,7 @@ class QuestionsController < ApplicationController
     if @question.destroy
       render status: :ok, json: { notice: 'Successfully deleted' }
     else
-      render status: unprocessable_entity, json: { errors: @question.errors }
+      render status: :unprocessable_entity, json: { errors: @question.errors }
     end
   end
 
