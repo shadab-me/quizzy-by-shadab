@@ -19,6 +19,7 @@ import Header from "components/Common/Header";
 import Quizzes from "components/Quiz/Quizzes";
 import PageLoader from "components/Common/PageLoader";
 import UpdateQuestion from "components/Question/UpdateQuestion";
+import NoMatch from "components/Common/NoMatch";
 
 const App = () => {
   let [loading, setLoading] = useState(true);
@@ -54,7 +55,7 @@ function UnAuthRoutes() {
   return (
     <Switch>
       <Route path="/" exact component={Login}></Route>
-      <Route path="/login" component={Login} />
+      <Route path="/*" component={Login} />
     </Switch>
   );
 }
@@ -71,6 +72,7 @@ function AuthRoutes() {
       <Route path="/quiz/:id" exact component={SingleQuiz}></Route>
       <Route path="/:id/question/new" exact component={CreateQuestion}></Route>
       <Route path="/edit/question/:id" exact component={UpdateQuestion}></Route>
+      <Route path="/*" component={NoMatch} />
     </Switch>
   );
 }

@@ -4,7 +4,6 @@ import quiz from "apis/quiz";
 import TableUI from "components/Common/Table";
 import PageLoader from "components/Common/PageLoader";
 import Button from "components/Button";
-import Container from "components/Container";
 const Quizzes = () => {
   const [loading, setLoading] = useState(true);
   const [quizzes, setQuizzes] = useState("");
@@ -36,18 +35,18 @@ const Quizzes = () => {
   if (quizzes.length < 1) {
     return (
       <main>
-        <div className="flex justify-end mr-20 mt-16">
+        <div className="flex justify-end mr-20 mt-20">
           <div>
             <Button
               size={"medium"}
               type={"link"}
               iconClass={"ri-add-line"}
-              buttonText="Add Question"
-              path={`/${id}/quiz/new`}
+              buttonText="Add Quiz"
+              path={`/quiz/new`}
             ></Button>{" "}
           </div>
         </div>
-        <div className="quizzes-list">
+        <div className="quizzes-list mt-16">
           <h1 className="text-2xl flex justify-center items-center opacity-75">
             You Have not create quiz.
           </h1>
@@ -63,7 +62,7 @@ const Quizzes = () => {
             size={"medium"}
             type={"link"}
             iconClass={"ri-add-line"}
-            buttonText="Add Question"
+            buttonText="Add Quiz"
             path={`quiz/new`}
           ></Button>{" "}
         </div>

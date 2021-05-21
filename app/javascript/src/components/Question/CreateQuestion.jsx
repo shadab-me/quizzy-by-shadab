@@ -11,8 +11,8 @@ const CreateQuestion = () => {
   const { id } = useParams();
   const history = useHistory();
   const [answers, setAnswers] = useState([
-    { value: "", is_correct: false },
-    { value: "", is_correct: false },
+    { id: 1, value: "", is_correct: false },
+    { id: 2, value: "", is_correct: false },
   ]);
 
   const correctAnswerHandler = (value) => {
@@ -20,7 +20,10 @@ const CreateQuestion = () => {
   };
 
   const addInputHandler = () => {
-    setAnswers([...answers, { value: "", is_correct: false }]);
+    setAnswers([
+      ...answers,
+      { id: answers.length + 1, value: "", is_correct: false },
+    ]);
   };
 
   const removeInputHandler = (index) => {

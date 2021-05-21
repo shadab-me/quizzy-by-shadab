@@ -10,8 +10,8 @@ const UpdateQuestion = () => {
   const { id } = useParams();
   const history = useHistory();
   const [answers, setAnswers] = useState([
-    { value: "", is_correct: false },
-    { value: "", is_correct: false },
+    { id: 1000, value: "", is_correct: false },
+    { id: 2000, value: "", is_correct: false },
   ]);
 
   const getCurrentQuestion = async () => {
