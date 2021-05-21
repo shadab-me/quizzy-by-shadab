@@ -57,7 +57,7 @@ const SingleQuiz = () => {
               type={"link"}
               iconClass={"ri-add-line"}
               buttonText="Add Question"
-              path={`/${id}/quiz/new`}
+              path={`/${id}/question/new`}
             ></Button>{" "}
           </div>
         </div>

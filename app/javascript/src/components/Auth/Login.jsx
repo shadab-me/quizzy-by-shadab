@@ -73,7 +73,7 @@ export default function Login(props) {
                 </div>
                 {loading ? (
                   <button className="w-full p-3 mt-4 bg-indigo-600 text-white rounded shadow">
-                    Loading
+                    Loading...
                   </button>
                 ) : (
                   <button
