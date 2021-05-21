@@ -21,7 +21,11 @@ class QuizzesController < ApplicationController
   end
 
   def create
-    @quiz = Quiz.new(quiz_params.merge(user_id: current_user.id.to_i))
+    slug = quiz_params[:title].parameterize
+    presentSameSlug = Quiz.where("slug like?","%#{slug}%").count
+    slug = slug + "+" + "#{presentSameSlug+1}"
+    
+    @quiz = Quiz.new(quiz_params.merge(user_id: current_user.id.to_i, slug:slug))
     if @quiz.save
       render status: :created, json: { notice: 'Quiz created successfully.' }
     else
@@ -71,6 +75,6 @@ class QuizzesController < ApplicationController
   end
 
   def quiz_params
-    params.required(:quiz_data).permit(:title, :id)
+    params.required(:quiz_data).permit(:title, :id, :is_publish)
   end
 end
