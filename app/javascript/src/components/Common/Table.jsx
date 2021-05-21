@@ -62,7 +62,7 @@ export default function TableUI({ quizzes, handleDelete }) {
                       <Button
                         size="small"
                         type="link"
-                        path={`/quiz/${row.original.id}/edit`}
+                        path={`/edit/quiz/${row.original.id}`}
                         buttonText="Edit"
                       />
                       <Button

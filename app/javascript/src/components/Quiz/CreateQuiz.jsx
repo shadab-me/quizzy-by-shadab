@@ -1,25 +1,32 @@
-import React, { useState } from "react";import quiz from "apis/quiz";
+import React, { useState } from "react";
+import quiz from "apis/quiz";
 import Toastr from "components/Common/Toastr";
 import PageLoader from "components/Common/PageLoader";
 import QuizForm from "components/Form/QuizForm";
+import Logger from "js-logger";
+import { useHistory } from "react-router-dom";
 
 const CreateQuiz = () => {
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
-
+  const history = useHistory();
   const submitHandler = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    if (title.trim()) {
-      let quiz_data = { title };
-      let data = await quiz.create({ quiz_data });
-      setTimeout(() => {
-        window.location.href = "/";
+    try {
+      if (title.trim()) {
+        setLoading(true);
+        let quiz_data = { title };
+        let data = await quiz.create({ quiz_data });
+        history.push("/dashboard");
         setLoading(false);
-      }, 3500);
-    } else {
-      Toastr.error("Question can not blank!");
+      } else {
+        Toastr.error("Question can not blank!");
+      }
+    } catch (error) {
+      setLoading(false);
+      Logger.error(error);
     }
+    setLoading(true);
   };
   if (loading) return <PageLoader />;
   return (

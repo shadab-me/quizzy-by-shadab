@@ -36,8 +36,9 @@ const SingleQuiz = () => {
       getQuiz();
       setLoading(false);
     } catch (error) {
-      logger.error(error);
       setLoading(false);
+
+      logger.error(error);
     }
   };
   if (loading) {
@@ -49,12 +50,18 @@ const SingleQuiz = () => {
         <div className="title mt-6">
           <h1 className="text-3xl opacity-50 m-2 p-5 font-bold">{title}</h1>
         </div>
-        <div className="flex justify-end mt-6">
-          <button className="bg-blue-700 text-blue-100 rounded-sm p-2 mt-4 mr-3 m-2 outline-none focus:outline-none shadow-sm">
-            <Link to={`/${id}/question/new`}>Add question</Link>
-          </button>
+        <div className="flex justify-end mr-20 mt-16">
+          <div>
+            <Button
+              size={"medium"}
+              type={"link"}
+              iconClass={"ri-add-line"}
+              buttonText="Add Question"
+              path={`/${id}/quiz/new`}
+            ></Button>{" "}
+          </div>
         </div>
-        <div className="question-list mt-6">
+        <div className="question-list mt-8">
           <h1 className="text-2xl flex justify-center items-center opacity-75">
             There is no question in this quiz.
           </h1>

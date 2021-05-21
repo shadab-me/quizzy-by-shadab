@@ -9,30 +9,56 @@ const Header = ({ isLoggedIn, currentUser }) => {
 
   return (
     <>
-      <header className="bg-light shadow-lg p-4">
-        <nav className="flex justify-between">
-          <h1 className="text-2xl font-bold">
-            <Link to="/">Quizzy</Link>
-          </h1>
-          <ul className="flex">
-            <li className="p-2">
-              <Link to="/">Home</Link>
-            </li>
+      <nav className="bg-white shadow">
+        <div className="mx-auto max-w-7xl sm:px-4 lg:px-8">
+          <div className="flex justify-between h-16">
+            <div className="flex px-2 lg:px-0">
+              <div className="hidden lg:flex">
+                <Link
+                  to="/"
+                  className="text-blue-600 text-2xl font-bold  items-center transition duration-75 ease-in-out inline-flex cursor-pointer mt-3 px-5 py-1 h-10 focus:outline-none hover:bg-white focus:border-none hover:text-blue-600"
+                >
+                  Quizzy
+                </Link>
+              </div>
+            </div>
             {isLoggedIn ? (
-              <>
-                <li className="p-2">{currentUser["first_name"]}</li>
-                <li className="p-2" onClick={logOut}>
-                  LogOut
-                </li>
-              </>
+              <div className="flex items-center justify-end">
+                <Link
+                  to="/"
+                  className="font-semibold items-center rounded mx-3 transition duration-75 ease-in-out inline-flex cursor-pointer mt-1  px-6 py-1 h-10 focus:outline-none hover:bg-blue-600 bg-blue-600 focus:border-none text-blue-200"
+                >
+                  <span className="text-white"> Home </span>
+                </Link>
+                <h3 to="" className="">
+                  {currentUser.first_name}
+                </h3>
+                <a
+                  onClick={logOut}
+                  className="font-semibold items-center rounded mx-3 transition duration-75 ease-in-out inline-flex cursor-pointer mt-1 border-2 border-blue-200 px-6 py-1 h-10 focus:outline-none hover:bg-blue-600 focus:border-none focus:to-white"
+                >
+                  Log Out
+                </a>
+              </div>
             ) : (
-              <Link to="/login" className="p-2">
-                LogIn
-              </Link>
+              <div className="flex items-center justify-end">
+                <Link
+                  to="/"
+                  className="font-semibold boder border-transparent items-center rounded mx-3 transition duration-75 ease-in-out inline-flex cursor-pointer mt-1  px-6 py-1 h-10 focus:outline-none hover:bg-blue-600 bg-blue-600 focus:border-transparent text-blue-200"
+                >
+                  <span className="text-white"> Home </span>
+                </Link>
+                <Link
+                  to="/login"
+                  className="font-semibold items-center rounded mx-3 transition duration-75 ease-in-out inline-flex cursor-pointer mt-1 border-2 border-blue-200 px-6 py-1 h-10 focus:outline-none hover:bg-blue-600 focus:border-none"
+                >
+                  Login
+                </Link>
+              </div>
             )}
-          </ul>
-        </nav>
-      </header>
+          </div>
+        </div>
+      </nav>
     </>
   );
 };

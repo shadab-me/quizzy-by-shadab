@@ -3,15 +3,21 @@ import { Link } from "react-router-dom";
 import quiz from "apis/quiz";
 import TableUI from "components/Common/Table";
 import PageLoader from "components/Common/PageLoader";
-
+import Button from "components/Button";
+import Container from "components/Container";
 const Quizzes = () => {
   const [loading, setLoading] = useState(true);
   const [quizzes, setQuizzes] = useState("");
 
   const fetchQuiz = async () => {
     const { data } = await quiz.all();
-    setQuizzes(data.quizzes);
-    setLoading(false);
+    try {
+      setQuizzes(data.quizzes);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      logger.error(error);
+    }
   };
 
   useEffect(() => {
@@ -30,10 +36,16 @@ const Quizzes = () => {
   if (quizzes.length < 1) {
     return (
       <main>
-        <div className="flex justify-end">
-          <button className="bg-blue-700 text-blue-100 rounded-sm p-2 mt-10 mr-3 outline-none focus:outline-none shadow-sm">
-            <Link to="/create">Add new quiz</Link>
-          </button>
+        <div className="flex justify-end mr-20 mt-16">
+          <div>
+            <Button
+              size={"medium"}
+              type={"link"}
+              iconClass={"ri-add-line"}
+              buttonText="Add Question"
+              path={`/${id}/quiz/new`}
+            ></Button>{" "}
+          </div>
         </div>
         <div className="quizzes-list">
           <h1 className="text-2xl flex justify-center items-center opacity-75">
@@ -45,11 +57,18 @@ const Quizzes = () => {
   }
   return (
     <main>
-      <div className="flex justify-end">
-        <button className="bg-blue-700 text-blue-100 rounded-sm p-2 mt-10 mr-3 outline-none focus:outline-none shadow-sm">
-          <Link to="/create">Add new quiz</Link>
-        </button>
+      <div className="flex justify-end mr-20 mt-16">
+        <div className="">
+          <Button
+            size={"medium"}
+            type={"link"}
+            iconClass={"ri-add-line"}
+            buttonText="Add Question"
+            path={`quiz/new`}
+          ></Button>{" "}
+        </div>
       </div>
+
       <div className="quizzes-list">
         <h1 className="text-2xl flex justify-center items-center opacity-75">
           <TableUI quizzes={quizzes} handleDelete={handleDelete} />
