@@ -2,7 +2,6 @@ import React, { useState, useEffect, useLayoutEffect, useMemo } from "react";
 import { initializeLogger } from "common/logger";
 import { requestIntercepts } from "apis/axios";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import auth from "apis/auth";
 import Login from "components/Auth/Login";
 import CreateQuiz from "components/Quiz/CreateQuiz";
@@ -20,6 +19,7 @@ import Header from "components/Common/Header";
 import Quizzes from "components/Quiz/Quizzes";
 import PageLoader from "components/Common/PageLoader";
 import UpdateQuestion from "components/Question/UpdateQuestion";
+import NoMatch from "components/Common/NoMatch";
 
 const App = () => {
   let [loading, setLoading] = useState(true);
@@ -36,8 +36,8 @@ const App = () => {
   useEffect(() => {
     initializeLogger();
     requestIntercepts();
-    logger.info("Log from js logger");
     getCurrentUser();
+    logger.info("Log from js logger");
   }, []);
 
   if (loading) return <PageLoader />;
@@ -55,7 +55,7 @@ function UnAuthRoutes() {
   return (
     <Switch>
       <Route path="/" exact component={Login}></Route>
-      <Route path="/login" component={Login} />
+      <Route path="/*" component={Login} />
     </Switch>
   );
 }
@@ -63,12 +63,16 @@ function UnAuthRoutes() {
 function AuthRoutes() {
   return (
     <Switch>
-      <Route path="/" exact component={Quizzes}></Route>
-      <Route path="/create" exact component={CreateQuiz}></Route>
-      <Route path="/quiz/:id/edit" exact component={UpdateQuiz}></Route>
+      <Route exact path="/">
+        <Redirect to="/dashboard" />
+      </Route>
+      <Route path="/dashboard" exact component={Quizzes}></Route>
+      <Route path="/quiz/new" exact component={CreateQuiz}></Route>
+      <Route path="/edit/quiz/:id" exact component={UpdateQuiz}></Route>
       <Route path="/quiz/:id" exact component={SingleQuiz}></Route>
       <Route path="/:id/question/new" exact component={CreateQuestion}></Route>
       <Route path="/edit/question/:id" exact component={UpdateQuestion}></Route>
+      <Route path="/*" component={NoMatch} />
     </Switch>
   );
 }

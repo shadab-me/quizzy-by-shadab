@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import auth from "apis/auth";
 import PageLoader from "components/Common/PageLoader";
+
 export default function Login(props) {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
-
-  const [errors, setErrors] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,15 +20,16 @@ export default function Login(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true);
-    let { data } = await auth.login({ session: user });
-    setLoading(false);
-    window.location.href = "/";
+    try {
+      setLoading(true);
+      let { data } = await auth.login({ session: user });
+      window.location.href = "/";
+    } catch (error) {
+      setLoading(false);
+      logger(error);
+    }
   };
 
-  if (loading) {
-    return <PageLoader />;
-  }
   return (
     <>
       <div className="container mx-auto p-8 flex">
@@ -71,19 +71,18 @@ export default function Login(props) {
                     onChange={handleChange}
                   />
                 </div>
-
-                <button
-                  type="submit"
-                  className="w-full p-3 mt-4 bg-indigo-600 text-white rounded shadow"
-                >
-                  Login
-                </button>
-              </div>
-
-              <div className="flex justify-between p-8 text-sm border-t border-gray-300 bg-gray-100">
-                <Link to="/signup" className="font-medium text-indigo-500">
-                  Create account
-                </Link>
+                {loading ? (
+                  <button className="w-full p-3 mt-4 bg-indigo-600 text-white rounded shadow">
+                    Loading...
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    className="w-full p-3 mt-4 bg-indigo-600 text-white rounded shadow"
+                  >
+                    Login
+                  </button>
+                )}
               </div>
             </div>
           </form>
