@@ -1,7 +1,16 @@
 # frozen_string_literal: true
 
 class SessionsController < ApplicationController
-  before_action :authenticate_user_using_session, only: %i[is_logged_in]
+  before_action :authenticate_user_using_session, only: %i[show]
+
+  def show
+    if current_user
+      render json: { logged: true, user: current_user }
+    else
+      render json: { logged_in: false, user: 'No such user' }
+    end
+  end
+
   def create
     @user = User.find_by(email: params[:session][:email].downcase)
     if @user.present? && @user.authenticate(params[:session][:password])
@@ -13,19 +22,10 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    if session[:user_id]
-      session[:user_id] = nil
-      redirect_to root_path
-    end
+    session[:user_id] = nil if session[:user_id]
   end
 
-  def is_logged_in
-    if current_user
-      render json: { logged: true, user: current_user }
-    else
-      render json: { logged_in: false, user: 'No such user' }
-    end
-  end
+  
 
   def session_params
     params.require(:session).permit(:email, :password)
