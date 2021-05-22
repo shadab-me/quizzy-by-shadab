@@ -4,7 +4,7 @@ class QuizzesController < ApplicationController
   before_action :authenticate_user_using_session
   before_action :load_quiz, only: %i[show update destroy]
   before_action :load_question, only: %i[show]
-
+  before_action :check_admin
   before_action :authorize_quiz, only: %i[update destroy]
 
   def index
@@ -21,7 +21,14 @@ class QuizzesController < ApplicationController
   end
 
   def create
-    @quiz = Quiz.new(quiz_params.merge(user_id: current_user.id.to_i))
+    slug = quiz_params[:title].parameterize
+    presentSameSlug = Quiz.where('slug like ?', "%#{slug}%").count
+    slug = if presentSameSlug.positive?
+             "#{slug}+#{presentSameSlug + 1}"
+           else
+             slug
+           end
+    @quiz = Quiz.new(quiz_params.merge(user_id: current_user.id.to_i, slug: slug))
     if @quiz.save
       render status: :created, json: { notice: 'Quiz created successfully.' }
     else
@@ -55,6 +62,13 @@ class QuizzesController < ApplicationController
     render json: { errors: e }
   end
 
+  def check_admin
+    if current_user.role == 'administrator'
+    else
+      render json: { errors: 'Access denied.' }
+    end
+  end
+
   def load_question
     @questions = Question.where(quiz_id: @quiz.id).map do |question|
       {
@@ -71,6 +85,6 @@ class QuizzesController < ApplicationController
   end
 
   def quiz_params
-    params.required(:quiz_data).permit(:title, :id)
+    params.required(:quiz_data).permit(:title, :id, :is_publish)
   end
 end

@@ -10,14 +10,15 @@ import Container from "components/Container";
 const SingleQuiz = () => {
   const [loading, setLoading] = useState(false);
   const [questions, setQuestions] = useState([]);
-  const [title, setTitle] = useState("");
+  const [quizData, setQuizData] = useState("");
   const { id } = useParams();
+  const publicUrl = `${window.location.protocol}${window.location.host}/public/${id}/${quizData.slug}`;
 
   const getQuiz = async () => {
     try {
       setLoading(true);
       const { data } = await quiz.one(id);
-      setTitle(data.quiz.title);
+      setQuizData(data.quiz);
       setQuestions(data.questions);
       setLoading(false);
     } catch (error) {
@@ -29,6 +30,20 @@ const SingleQuiz = () => {
     getQuiz();
   }, []);
 
+  const updatePublished = async () => {
+    try {
+      setLoading(true);
+      let quiz_data = { title: quizData.title, is_publish: true };
+      let data = await quiz.update(id, { quiz_data });
+      await getQuiz();
+      setLoading(false);
+      history.push(`/quiz/${id}`);
+    } catch (error) {
+      setLoading(false);
+      logger.error(error);
+    }
+  };
+
   const handleDelete = async (id) => {
     try {
       setLoading(true);
@@ -37,18 +52,21 @@ const SingleQuiz = () => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-
       logger.error(error);
     }
   };
+
   if (loading) {
     return <PageLoader />;
   }
+
   if (questions.length < 1) {
     return (
       <main>
         <div className="title mt-6">
-          <h1 className="text-3xl opacity-50 m-2 p-5 font-bold">{title}</h1>
+          <h1 className="text-3xl opacity-50 m-2 p-5 font-bold">
+            {quizData.title}
+          </h1>
         </div>
         <div className="flex justify-end mr-20 mt-16">
           <div>
@@ -72,7 +90,9 @@ const SingleQuiz = () => {
   return (
     <main>
       <div className="title mt-6md:flex md:items-center mt-6 max-w-3xl">
-        <h1 className="text-3xl opacity-50 m-2 p-5 font-bold">{title}</h1>
+        <h1 className="text-3xl opacity-50 m-2 p-5 font-bold">
+          {quizData.title}
+        </h1>
       </div>
       <div className="flex justify-end">
         <div className="w-1/4 flex">
@@ -90,13 +110,20 @@ const SingleQuiz = () => {
               size={"medium"}
               type={"Button"}
               iconClass={""}
-              buttonText="Publish"
-              path={``}
+              buttonText={quizData.is_publish ? "Published" : "Publish"}
+              onClick={() => updatePublished()}
             ></Button>
           </div>
         </div>
       </div>
       <Container>
+        <span>
+          {quizData.is_publish ? (
+            <a className="font-bold" target={"_blank"}>
+              {publicUrl}
+            </a>
+          ) : null}
+        </span>
         <div className="questions-list mt-8">
           {questions.map((question, index) => {
             return (

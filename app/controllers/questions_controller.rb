@@ -2,9 +2,10 @@
 
 class QuestionsController < ApplicationController
   before_action :set_question, only: %i[show edit update destroy]
-  before_action :authenticate_user_using_session, only: %i[create]
+  before_action :authenticate_user_using_session
   before_action :load_answers, only: %i[show update index]
   before_action :delete_answers, only: %i[update]
+  before_action :check_admin
 
   def index
     @questions = Question.where(quiz_id: params[:id])
@@ -60,6 +61,14 @@ class QuestionsController < ApplicationController
     @answers.destroy_all
   rescue ActiveRecord::RecordNotFound => e
     render json: { errors: e }
+  end
+
+  def check_admin
+    if current_user.role == 'administrator'
+      p current_user
+    else
+      render json: { errors: 'Access denied.' }
+    end
   end
 
   def question_params

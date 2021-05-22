@@ -10,7 +10,7 @@ class AnswerTest < ActiveSupport::TestCase
                      role: 'administrator',
                      password: 'welcome',
                      password_confirmation: 'welcome')
-    @quiz = @user.quizzes.new(title: 'This is a test poll')
+    @quiz = @user.quizzes.new(title: 'This is a test poll',slug: "this-is-a-test-poll")
     @question = @quiz.questions.new(title: 'this test question')
     @answer = @question.answers.new(value: 'Test', question: @question)
   end

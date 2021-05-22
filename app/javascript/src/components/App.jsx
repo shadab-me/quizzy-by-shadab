@@ -55,6 +55,8 @@ function UnAuthRoutes() {
   return (
     <Switch>
       <Route path="/" exact component={Login}></Route>
+      <Route path="/public" component={() => <h1>This is public login</h1>} />
+      <Route path="/public/*" component={() => <h1>This is public login</h1>} />
       <Route path="/*" component={Login} />
     </Switch>
   );
@@ -72,6 +74,11 @@ function AuthRoutes() {
       <Route path="/quiz/:id" exact component={SingleQuiz}></Route>
       <Route path="/:id/question/new" exact component={CreateQuestion}></Route>
       <Route path="/edit/question/:id" exact component={UpdateQuestion}></Route>
+      <Route
+        path="/public/:id/:slug"
+        exact
+        component={() => <h1>This single </h1>}
+      ></Route>
       <Route path="/*" component={NoMatch} />
     </Switch>
   );

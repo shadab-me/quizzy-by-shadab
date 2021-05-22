@@ -17,7 +17,7 @@ class QuizPolicy
   end
 
   def create?
-   true
+    true
   end
 
   def destroy?
