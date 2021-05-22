@@ -38,6 +38,7 @@ end
 
 def create_sample_data!
   create_user! email: 'sam@example.com'
+  create_user_standard! email: 'eve@example.com'
 end
 
 def create_user!(options = {})
@@ -45,7 +46,17 @@ def create_user!(options = {})
                       password_confirmation: 'welcome',
                       first_name: 'Sam',
                       last_name: 'Smith',
-                      role: 'administrator' }
+                      role: 1 }
+  attributes = user_attributes.merge options
+  User.create! attributes
+end
+
+def create_user_standard!(options = {})
+  user_attributes = { password: 'welcome',
+                      password_confirmation: 'welcome',
+                      first_name: 'Eve',
+                      last_name: 'Smith',
+                      role: 0 }
   attributes = user_attributes.merge options
   User.create! attributes
 end
