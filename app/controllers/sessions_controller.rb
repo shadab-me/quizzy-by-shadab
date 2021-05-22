@@ -13,19 +13,26 @@ class SessionsController < ApplicationController
 
   def create
     @user = User.find_by(email: params[:session][:email].downcase)
-    if @user.present? && @user.authenticate(params[:session][:password])
-      session[:user_id] = @user.id
-      render status: :ok, json: { notice: 'logged in successfully' }
-    else
-      render status: :unauthorized, json: { notice: 'Incorrect credential, try again' }
+    if (@user.role = 'administrator')
+      if @user.present? && @user.authenticate(params[:session][:password])
+        session[:user_id] = @user.id
+        render status: :ok, json: { notice: 'logged in successfully' }
+      else
+        render status: :unauthorized, json: { notice: 'Incorrect credential, try again' }
+      end
+    elsif @user.role = 'standard'
+      if @user.present?
+        session[:user_id] = @user.id
+        render status: :ok, json: { notice: 'logged in successfully' }
+      else
+        render status: :unauthorized, json: { notice: 'Incorrect credential, try again' }
+      end
     end
   end
 
   def destroy
     session[:user_id] = nil if session[:user_id]
   end
-
-  
 
   def session_params
     params.require(:session).permit(:email, :password)
