@@ -13,15 +13,10 @@ class SessionsController < ApplicationController
 
   def create
     @user = User.find_by(email: params[:session][:email].downcase)
-    if @user.present?
-      if @user.role == 'administrator' && @user.authenticate(params[:session][:password])
-        session[:user_id] = @user.id
-      elsif @user.role == 'standard'
-        session[:user_id] = @user.id
-      end
+    if @user.present? && @user.role == 'administrator' && @user.authenticate(params[:session][:password])
+      session[:user_id] = @user.id
     else
       render status: :unauthorized, json: { notice: 'Incorrect credential, try again' }
-
     end
   end
 

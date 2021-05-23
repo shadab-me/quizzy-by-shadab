@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import auth from "apis/auth";
 import PageLoader from "components/Common/PageLoader";
-
-export default function PublicLogin(props) {
+import quizAttempt from "apis/quizattempt";
+import PublicQuiz from "./PublicQuiz";
+export default function NewAttempt(props) {
   const [loading, setLoading] = useState(false);
   const { slug } = useParams();
   const [user, setUser] = useState({
@@ -11,7 +11,7 @@ export default function PublicLogin(props) {
     first_name: "",
     last_name: "",
   });
-
+  const [userDetail, setUserDetail] = useState();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser((prevState) => ({
@@ -24,14 +24,18 @@ export default function PublicLogin(props) {
     event.preventDefault();
     try {
       setLoading(true);
-      let { data } = await auth.login({ session: user });
-      window.location.href = "/";
+      let { data } = await quizAttempt.create({ attempt: { slug, user } });
+      setUserDetail(data.user);
     } catch (error) {
       setLoading(false);
       logger(error);
     }
   };
 
+  if (userDetail) {
+    return <PublicQuiz />;
+  }
+  if (loading) return <PageLoader />;
   return (
     <>
       <h1 className="text-3xl text-bold text-center mb-12 opacity-75 mt-10">

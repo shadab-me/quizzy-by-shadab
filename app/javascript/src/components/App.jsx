@@ -8,7 +8,8 @@ import CreateQuiz from "components/Quiz/CreateQuiz";
 import UpdateQuiz from "components/Quiz/UpdateQuiz";
 import SingleQuiz from "components/Quiz/SingleQuiz";
 import CreateQuestion from "components/Question/CreateQuestion";
-import PublicLogin from "components/Public/Login";
+import NewAttempt from "components/Public/NewAttempt";
+import PublicHeader from "components/Public/PublicHeader";
 
 import {
   BrowserRouter as Router,
@@ -32,8 +33,6 @@ const App = () => {
     let user = await auth.logged();
     setLogged(user.data.logged);
     setCurrentUser(user.data.user);
-
-    setAdmin(user.data.user?.role);
     setLoading(false);
   };
 
@@ -48,58 +47,48 @@ const App = () => {
 
   return (
     <Router>
-      <Header isLoggedIn={isLoggedIn} currentUser={currentUser} />
       <ToastContainer />
-      {isLoggedIn ? <AuthRoutes isAdmin={isAdmin} /> : <UnAuthRoutes />}
+      <Switch>
+        <PublicRoutes />
+        <>
+          <Header />
+          {isLoggedIn ? <AuthRoutes /> : <UnAuthRoutes />}
+        </>
+      </Switch>
     </Router>
   );
 };
+
+function PublicRoutes() {
+  return (
+    <>
+      <PublicHeader />
+      <Route path="/public/:slug/attempts/new" component={NewAttempt}></Route>
+    </>
+  );
+}
 
 function UnAuthRoutes() {
   return (
     <Switch>
       <Route path="/" exact component={Login}></Route>
-      <Route path="/public/:id/:slug" exact component={PublicLogin} />
-      <Route path="/*" component={NoMatch} />
     </Switch>
   );
 }
 
-function AuthRoutes({ isAdmin }) {
+function AuthRoutes() {
   return (
-    <>
-      {isAdmin == "administrator" ? (
-        <Switch>
-          <Route exact path="/">
-            <Redirect to="/dashboard" />
-          </Route>
-          <Route path="/dashboard" exact component={Quizzes}></Route>
-          <Route path="/quiz/new" exact component={CreateQuiz}></Route>
-          <Route path="/edit/quiz/:id" exact component={UpdateQuiz}></Route>
-          <Route path="/quiz/:id" exact component={SingleQuiz}></Route>
-          <Route
-            path="/:id/question/new"
-            exact
-            component={CreateQuestion}
-          ></Route>
-          <Route
-            path="/edit/question/:id"
-            exact
-            component={UpdateQuestion}
-          ></Route>
-          <Route path="/*" component={NoMatch} />
-        </Switch>
-      ) : (
-        <Switch>
-          <Route
-            path="/public/:id/:slug"
-            exact
-            component={() => <h1>This single </h1>}
-          ></Route>
-          <Route path="/*" component={NoMatch} />
-        </Switch>
-      )}
-    </>
+    <Switch>
+      <Route exact path="/">
+        <Redirect to="/dashboard" />
+      </Route>
+      <Route path="/dashboard" exact component={Quizzes}></Route>
+      <Route path="/quiz/new" exact component={CreateQuiz}></Route>
+      <Route path="/quiz/:id" exact component={SingleQuiz}></Route>
+      <Route path="/:id/question/new" exact component={CreateQuestion}></Route>
+      <Route path="/edit/question/:id" exact component={UpdateQuestion}></Route>
+      <Route path="/*" component={NoMatch} />
+    </Switch>
   );
 }
 export default App;
