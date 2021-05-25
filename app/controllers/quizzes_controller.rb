@@ -4,7 +4,6 @@ class QuizzesController < ApplicationController
   before_action :authenticate_user_using_session
   before_action :load_quiz, only: %i[show update destroy]
   before_action :load_question, only: %i[show]
-  before_action :check_admin
   before_action :authorize_quiz, only: %i[update destroy]
 
   def index
@@ -60,15 +59,6 @@ class QuizzesController < ApplicationController
     @quiz = Quiz.find(params[:id])
   rescue ActiveRecord::RecordNotFound => e
     render json: { errors: e }
-  end
-
-  def check_admin
-    if current_user.role == 'administrator'
-      p current_user
-      true
-    else
-      render json: { errors: 'Access denied.' }
-    end
   end
 
   def load_question

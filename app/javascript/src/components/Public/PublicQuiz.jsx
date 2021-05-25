@@ -3,6 +3,7 @@ import PageLoader from "components/Common/PageLoader";
 import Container from "components/Container";
 import Button from "components/Button";
 import quizAttempt from "apis/quizattempt";
+import Logger from "js-logger";
 
 const PublicQuiz = ({ quiz, questions, attemptId, userDetail }) => {
   const [loading, setLoading] = useState(false);
@@ -32,6 +33,7 @@ const PublicQuiz = ({ quiz, questions, attemptId, userDetail }) => {
     let selected = [];
     let correctCount = 0;
     let inCorrectCount = 0;
+
     for (let key in response) {
       if (response[key] == correctAnswers[key]) {
         correctCount++;
@@ -47,11 +49,17 @@ const PublicQuiz = ({ quiz, questions, attemptId, userDetail }) => {
     let attempt = {
       user: userDetail,
       attempt_answers_attributes: selected,
+      is_submitted: true,
     };
 
-    const data = await quizAttempt.update(attemptId, { attempt });
-    setSubmitted(true);
-    setLoading(false);
+    try {
+      const data = await quizAttempt.update(attemptId, { attempt });
+      setSubmitted(true);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      logger.error(error);
+    }
   };
 
   if (loading) {
@@ -67,7 +75,7 @@ const PublicQuiz = ({ quiz, questions, attemptId, userDetail }) => {
       <div className="title mt-6md:flex md:items-center mt-6 max-w-3xl">
         <h1 className="text-3xl opacity-50 m-2 p-5 font-bold">{quiz?.title}</h1>
         {is_submitted ? (
-          <h3 className="text-xl">
+          <h3 className="text-xl mx-5 text-green-700 my-2 bold">
             Thank You for taking the quiz, here is your result. you <br></br>
             have submitted {correct} correct and {inCorrect} incorrect answers.
           </h3>
@@ -143,14 +151,15 @@ const PublicQuiz = ({ quiz, questions, attemptId, userDetail }) => {
             );
           })}
         </div>
-
         <div className="mt-8 w-1/4 mx-auto my-0">
-          <Button
-            size={"medium"}
-            type={"submit"}
-            buttonText={is_submitted ? "Submitted" : "Submit"}
-            onClick={!is_submitted ? submitHandler : () => {}}
-          ></Button>
+          {!is_submitted ? (
+            <Button
+              size={"medium"}
+              type={"submit"}
+              buttonText={"Submit"}
+              onClick={!is_submitted ? submitHandler : () => {}}
+            ></Button>
+          ) : null}
         </div>
       </Container>
     </main>

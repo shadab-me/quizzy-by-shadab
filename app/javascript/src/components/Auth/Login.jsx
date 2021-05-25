@@ -23,7 +23,6 @@ export default function Login(props) {
     try {
       setLoading(true);
       let { data } = await auth.login({ session: user });
-      console.log(data);
       window.location.href = "/";
     } catch (error) {
       setLoading(false);
