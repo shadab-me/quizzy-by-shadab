@@ -50,6 +50,8 @@ const PublicQuiz = ({ quiz, questions, attemptId, userDetail }) => {
       user: userDetail,
       attempt_answers_attributes: selected,
       is_submitted: true,
+      correct_answers: correct,
+      incorrect_answers: inCorrect,
     };
 
     try {
