@@ -12,7 +12,6 @@ class AttemptsController < ApplicationController
       if @quiz.present?
         @attempt = Attempt.find_by(user_id: @user.id, quiz_id: @quiz.id)
         if @attempt.present?
-          p @attempt
           if @attempt.is_submitted
             render status: :unprocessable_entity, json: { errors: 'You already have taken this quiz.' }
           else
