@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_210_518_081_578) do
+ActiveRecord::Schema.define(version: 20_210_518_099_843) do
   create_table 'answers', force: :cascade do |t|
     t.string 'value', null: false
     t.boolean 'is_correct', default: false
@@ -21,11 +21,13 @@ ActiveRecord::Schema.define(version: 20_210_518_081_578) do
     t.datetime 'updated_at', precision: 6, null: false
   end
 
-  create_table 'attempt_answer', force: :cascade do |t|
+  create_table 'attempt_answers', force: :cascade do |t|
     t.integer 'question_id', null: false
     t.integer 'answer_id', null: false
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
+    t.integer 'attempt_id', null: false
+    t.index %w[question_id attempt_id], name: 'index_attempt_answers_on_question_id_and_attempt_id', unique: true
   end
 
   create_table 'attempts', force: :cascade do |t|
@@ -33,6 +35,7 @@ ActiveRecord::Schema.define(version: 20_210_518_081_578) do
     t.integer 'quiz_id', null: false
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
+    t.boolean 'is_submitted', default: false
   end
 
   create_table 'questions', force: :cascade do |t|

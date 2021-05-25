@@ -40,22 +40,7 @@ const Header = ({ isLoggedIn, currentUser }) => {
                   Log Out
                 </a>
               </div>
-            ) : (
-              <div className="flex items-center justify-end">
-                <Link
-                  to="/"
-                  className="font-semibold boder border-transparent items-center rounded mx-3 transition duration-75 ease-in-out inline-flex cursor-pointer mt-1  px-6 py-1 h-10 focus:outline-none hover:bg-blue-600 bg-blue-600 focus:border-transparent text-blue-200"
-                >
-                  <span className="text-white"> Home </span>
-                </Link>
-                <Link
-                  to="/login"
-                  className="font-semibold items-center rounded mx-3 transition duration-75 ease-in-out inline-flex cursor-pointer mt-1 border-2 border-blue-200 px-6 py-1 h-10 focus:outline-none hover:bg-blue-600 focus:border-none"
-                >
-                  Login
-                </Link>
-              </div>
-            )}
+            ) : null}
           </div>
         </div>
       </nav>

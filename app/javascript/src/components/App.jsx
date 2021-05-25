@@ -48,13 +48,8 @@ const App = () => {
   return (
     <Router>
       <ToastContainer />
-      <Switch>
-        <PublicRoutes />
-        <>
-          <Header />
-          {isLoggedIn ? <AuthRoutes /> : <UnAuthRoutes />}
-        </>
-      </Switch>
+      <Header isLoggedIn={isLoggedIn} currentUser={currentUser} />
+      {isLoggedIn ? <AuthRoutes /> : <UnAuthRoutes />}
     </Router>
   );
 };
@@ -62,7 +57,6 @@ const App = () => {
 function PublicRoutes() {
   return (
     <>
-      <PublicHeader />
       <Route path="/public/:slug/attempts/new" component={NewAttempt}></Route>
     </>
   );
@@ -72,6 +66,7 @@ function UnAuthRoutes() {
   return (
     <Switch>
       <Route path="/" exact component={Login}></Route>
+      <PublicRoutes />
     </Switch>
   );
 }
@@ -87,6 +82,7 @@ function AuthRoutes() {
       <Route path="/quiz/:id" exact component={SingleQuiz}></Route>
       <Route path="/:id/question/new" exact component={CreateQuestion}></Route>
       <Route path="/edit/question/:id" exact component={UpdateQuestion}></Route>
+      <PublicRoutes />
       <Route path="/*" component={NoMatch} />
     </Switch>
   );

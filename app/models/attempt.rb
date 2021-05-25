@@ -4,6 +4,6 @@ class Attempt < ApplicationRecord
   belongs_to :quiz
   belongs_to :user
   has_many :question
-  has_many :attempt_answer
-  accepts_nested_attributes_for :attempt_answer, allow_destroy: true
+  has_many :attempt_answers
+  accepts_nested_attributes_for :attempt_answers, allow_destroy: true
 end

@@ -12,6 +12,9 @@ export default function NewAttempt(props) {
     last_name: "",
   });
   const [userDetail, setUserDetail] = useState();
+  const [questions, setQuestions] = useState([]);
+  const [attemptId, setAttemptId] = useState();
+  const [quiz, setQuiz] = useState({});
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser((prevState) => ({
@@ -26,6 +29,9 @@ export default function NewAttempt(props) {
       setLoading(true);
       let { data } = await quizAttempt.create({ attempt: { slug, user } });
       setUserDetail(data.user);
+      setQuiz(data.quiz);
+      setQuestions(data.questions);
+      setAttemptId(data.attempt_id);
     } catch (error) {
       setLoading(false);
       logger(error);
@@ -33,7 +39,14 @@ export default function NewAttempt(props) {
   };
 
   if (userDetail) {
-    return <PublicQuiz />;
+    return (
+      <PublicQuiz
+        quiz={quiz}
+        questions={questions}
+        attemptId={attemptId}
+        userDetail={userDetail}
+      />
+    );
   }
   if (loading) return <PageLoader />;
   return (
