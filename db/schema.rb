@@ -12,13 +12,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_210_518_081_527) do
+ActiveRecord::Schema.define(version: 20_210_518_099_843) do
   create_table 'answers', force: :cascade do |t|
     t.string 'value', null: false
     t.boolean 'is_correct', default: false
     t.integer 'question_id', null: false
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
+  end
+
+  create_table 'attempt_answers', force: :cascade do |t|
+    t.integer 'question_id', null: false
+    t.integer 'answer_id', null: false
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.integer 'attempt_id', null: false
+    t.index %w[question_id attempt_id], name: 'index_attempt_answers_on_question_id_and_attempt_id', unique: true
+  end
+
+  create_table 'attempts', force: :cascade do |t|
+    t.integer 'user_id', null: false
+    t.integer 'quiz_id', null: false
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.boolean 'is_submitted', default: false
   end
 
   create_table 'questions', force: :cascade do |t|
@@ -47,7 +64,7 @@ ActiveRecord::Schema.define(version: 20_210_518_081_527) do
     t.string 'password_digest', null: false
   end
 
-  add_foreign_key 'answers', 'questions', on_delete: :cascade
+  add_foreign_key 'attempts', 'users'
   add_foreign_key 'questions', 'quizzes', on_delete: :cascade
   add_foreign_key 'quizzes', 'users'
 end

@@ -8,6 +8,8 @@ import CreateQuiz from "components/Quiz/CreateQuiz";
 import UpdateQuiz from "components/Quiz/UpdateQuiz";
 import SingleQuiz from "components/Quiz/SingleQuiz";
 import CreateQuestion from "components/Question/CreateQuestion";
+import NewAttempt from "components/Public/NewAttempt";
+import PublicHeader from "components/Public/PublicHeader";
 
 import {
   BrowserRouter as Router,
@@ -25,6 +27,7 @@ const App = () => {
   let [loading, setLoading] = useState(true);
   let [isLoggedIn, setLogged] = useState(false);
   let [currentUser, setCurrentUser] = useState({});
+  let [isAdmin, setAdmin] = useState("");
 
   const getCurrentUser = async () => {
     let user = await auth.logged();
@@ -44,20 +47,26 @@ const App = () => {
 
   return (
     <Router>
-      <Header isLoggedIn={isLoggedIn} currentUser={currentUser} />
       <ToastContainer />
+      <Header isLoggedIn={isLoggedIn} currentUser={currentUser} />
       {isLoggedIn ? <AuthRoutes /> : <UnAuthRoutes />}
     </Router>
   );
 };
 
+function PublicRoutes() {
+  return (
+    <>
+      <Route path="/public/:slug/attempts/new" component={NewAttempt}></Route>
+    </>
+  );
+}
+
 function UnAuthRoutes() {
   return (
     <Switch>
       <Route path="/" exact component={Login}></Route>
-      <Route path="/public" component={() => <h1>This is public login</h1>} />
-      <Route path="/public/*" component={() => <h1>This is public login</h1>} />
-      <Route path="/*" component={Login} />
+      <PublicRoutes />
     </Switch>
   );
 }
@@ -70,15 +79,10 @@ function AuthRoutes() {
       </Route>
       <Route path="/dashboard" exact component={Quizzes}></Route>
       <Route path="/quiz/new" exact component={CreateQuiz}></Route>
-      <Route path="/edit/quiz/:id" exact component={UpdateQuiz}></Route>
       <Route path="/quiz/:id" exact component={SingleQuiz}></Route>
       <Route path="/:id/question/new" exact component={CreateQuestion}></Route>
       <Route path="/edit/question/:id" exact component={UpdateQuestion}></Route>
-      <Route
-        path="/public/:id/:slug"
-        exact
-        component={() => <h1>This single </h1>}
-      ></Route>
+      <PublicRoutes />
       <Route path="/*" component={NoMatch} />
     </Switch>
   );

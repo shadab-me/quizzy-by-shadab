@@ -12,7 +12,7 @@ const SingleQuiz = () => {
   const [questions, setQuestions] = useState([]);
   const [quizData, setQuizData] = useState("");
   const { id } = useParams();
-  const publicUrl = `${window.location.protocol}${window.location.host}/public/${id}/${quizData.slug}`;
+  const publicUrl = `${window.location.protocol}${window.location.host}/public/${quizData.slug}`;
 
   const getQuiz = async () => {
     try {

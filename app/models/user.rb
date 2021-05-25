@@ -12,6 +12,7 @@ class User < ApplicationRecord
   validates :password, presence: true, confirmation: true, length: { minimum: 6 }
   validates :password_confirmation, presence: true, on: :create
   has_many :quizzes
+  has_many :attempt
 
   private
 
