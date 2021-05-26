@@ -25,10 +25,10 @@ const Header = ({ isLoggedIn, currentUser }) => {
             {isLoggedIn ? (
               <div className="flex items-center justify-end">
                 <Link
-                  to="/"
+                  to="/Report"
                   className="font-semibold items-center rounded mx-3 transition duration-75 ease-in-out inline-flex cursor-pointer mt-1  px-6 py-1 h-10 focus:outline-none hover:bg-blue-600 bg-blue-600 focus:border-none text-blue-200"
                 >
-                  <span className="text-white"> Home </span>
+                  <span className="text-white"> Report </span>
                 </Link>
                 <h3 to="" className="">
                   {currentUser.first_name}
