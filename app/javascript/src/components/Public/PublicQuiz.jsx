@@ -50,10 +50,9 @@ const PublicQuiz = ({ quiz, questions, attemptId, userDetail }) => {
       user: userDetail,
       attempt_answers_attributes: selected,
       is_submitted: true,
-      correct_answers: correct,
-      incorrect_answers: inCorrect,
+      correct_answers: correctCount,
+      incorrect_answers: inCorrectCount,
     };
-
     try {
       const data = await quizAttempt.update(attemptId, { attempt });
       setSubmitted(true);

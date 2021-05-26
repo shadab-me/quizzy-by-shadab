@@ -4,7 +4,24 @@ class AttemptsController < ApplicationController
   before_action :load_quiz, only: %i[show create]
   before_action :load_question, only: %i[show create]
   before_action :load_attempt, only: %i[update]
-  # after_action :load_attempt_answers, only: %i[update]
+  before_action :authenticate_user_using_session, only: %i[index]
+
+  def index
+    @attempts = Attempt.where(is_submitted: true)
+    @report = []
+    @attempts.each do |attempt|
+      quiz = attempt.quiz
+      user = attempt.user
+      if(quiz && user)
+      @report << { quiz_name: quiz.title,
+                  user_name: "#{user.first_name} #{user.last_name}",
+                  email: attempt.user.email,
+                  correct_answers: attempt[:correct_answers],
+                  incorrect_answers: attempt[:incorrect_answers] }
+    end
+  end
+    render status: :ok, json: { report: @report }
+  end
 
   def create
     @user = User.find_by(email: params[:attempt][:user][:email])
@@ -88,7 +105,7 @@ class AttemptsController < ApplicationController
   end
 
   def attempt_params
-    params.required(:attempt).permit(:id, :slug, :user, :is_submitted,
+    params.required(:attempt).permit(:id, :slug, :user, :is_submitted, :correct_answers, :incorrect_answers,
                                      attempt_answers_attributes: %i[question_id answer_id])
   end
 end

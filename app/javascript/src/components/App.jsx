@@ -10,7 +10,7 @@ import SingleQuiz from "components/Quiz/SingleQuiz";
 import CreateQuestion from "components/Question/CreateQuestion";
 import NewAttempt from "components/Public/NewAttempt";
 import PublicHeader from "components/Public/PublicHeader";
-
+import Report from "components/Report/Report";
 import {
   BrowserRouter as Router,
   Route,
@@ -78,7 +78,9 @@ function AuthRoutes() {
         <Redirect to="/dashboard" />
       </Route>
       <Route path="/dashboard" exact component={Quizzes}></Route>
+      <Route path="/report" exact component={Report}></Route>
       <Route path="/quiz/new" exact component={CreateQuiz}></Route>
+      <Route path="/edit/quiz/:id" exact component={UpdateQuiz}></Route>
       <Route path="/quiz/:id" exact component={SingleQuiz}></Route>
       <Route path="/:id/question/new" exact component={CreateQuestion}></Route>
       <Route path="/edit/question/:id" exact component={UpdateQuestion}></Route>
