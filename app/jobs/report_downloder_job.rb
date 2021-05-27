@@ -4,7 +4,6 @@ class ReportDownloderJob < ApplicationJob
   queue_as :default
 
   def perform(report)
-    p report
     generate_excel_report(report)
   end
 
