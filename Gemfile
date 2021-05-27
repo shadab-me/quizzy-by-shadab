@@ -20,6 +20,12 @@ gem 'react-rails'
 # database
 gem 'pg', group: [:production]
 
+# sidekiq
+gem 'sidekiq'
+
+# caxlsx
+gem 'caxlsx'
+
 # Use Puma as the app server
 gem 'puma', '~> 5.0'
 

@@ -11,6 +11,7 @@ import CreateQuestion from "components/Question/CreateQuestion";
 import NewAttempt from "components/Public/NewAttempt";
 import PublicHeader from "components/Public/PublicHeader";
 import Report from "components/Report/Report";
+import DownloadReport from "components/Report/DownloadReport";
 import {
   BrowserRouter as Router,
   Route,
@@ -84,6 +85,7 @@ function AuthRoutes() {
       <Route path="/quiz/:id" exact component={SingleQuiz}></Route>
       <Route path="/:id/question/new" exact component={CreateQuestion}></Route>
       <Route path="/edit/question/:id" exact component={UpdateQuestion}></Route>
+      <Route path="/download/report" exact component={DownloadReport}></Route>
       <PublicRoutes />
       <Route path="/*" component={NoMatch} />
     </Switch>
