@@ -12,14 +12,14 @@ class AttemptsController < ApplicationController
     @attempts.each do |attempt|
       quiz = attempt.quiz
       user = attempt.user
-      if(quiz && user)
+      next unless quiz && user
+
       @report << { quiz_name: quiz.title,
-                  user_name: "#{user.first_name} #{user.last_name}",
-                  email: attempt.user.email,
-                  correct_answers: attempt[:correct_answers],
-                  incorrect_answers: attempt[:incorrect_answers] }
+                   user_name: "#{user.first_name} #{user.last_name}",
+                   email: attempt.user.email,
+                   correct_answers: attempt[:correct_answers],
+                   incorrect_answers: attempt[:incorrect_answers] }
     end
-  end
     render status: :ok, json: { report: @report }
   end
 

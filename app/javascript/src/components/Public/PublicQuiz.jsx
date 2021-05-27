@@ -3,7 +3,7 @@ import PageLoader from "components/Common/PageLoader";
 import Container from "components/Container";
 import Button from "components/Button";
 import quizAttempt from "apis/quizattempt";
-import Logger from "js-logger";
+import Toastr from "components/Common/Toastr";
 
 const PublicQuiz = ({ quiz, questions, attemptId, userDetail }) => {
   const [loading, setLoading] = useState(false);
@@ -33,8 +33,10 @@ const PublicQuiz = ({ quiz, questions, attemptId, userDetail }) => {
     let selected = [];
     let correctCount = 0;
     let inCorrectCount = 0;
+    let responseSize = 0;
 
     for (let key in response) {
+      responseSize++;
       if (response[key] == correctAnswers[key]) {
         correctCount++;
       }
@@ -53,13 +55,18 @@ const PublicQuiz = ({ quiz, questions, attemptId, userDetail }) => {
       correct_answers: correctCount,
       incorrect_answers: inCorrectCount,
     };
-    try {
-      const data = await quizAttempt.update(attemptId, { attempt });
-      setSubmitted(true);
+    if (responseSize == questions.length) {
+      try {
+        const data = await quizAttempt.update(attemptId, { attempt });
+        setSubmitted(true);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        logger.error(error);
+      }
+    } else {
+      Toastr.error("You Should attempt all the question.");
       setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      logger.error(error);
     }
   };
 
