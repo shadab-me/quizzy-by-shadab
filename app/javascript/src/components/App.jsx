@@ -69,7 +69,7 @@ function UnAuthRoutes() {
       <Route path="/" exact component={Login}></Route>
       <PublicRoutes />
       <Route path="/*" exact component={Login}></Route>
-    </Switch>      <Route path="/" exact component={Login}></Route>
+    </Switch>
 
   );
 }
