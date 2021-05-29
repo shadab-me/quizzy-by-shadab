@@ -21,12 +21,8 @@ class QuizzesController < ApplicationController
 
   def create
     slug = quiz_params[:title].parameterize
-    presentSameSlug = Quiz.where('slug like ?', "%#{slug}%").count
-    slug = if presentSameSlug.positive?
-             "#{slug}+#{presentSameSlug + 1}"
-           else
-             slug
-           end
+    present_same_slug = Quiz.where('slug like ?', "%#{slug}%").count
+    slug = present_same_slug.positive? ? "#{slug}+#{present_same_slug + 1}" : slug
     @quiz = Quiz.new(quiz_params.merge(user_id: current_user.id.to_i, slug: slug))
     if @quiz.save
       render status: :created, json: { notice: 'Quiz created successfully.' }

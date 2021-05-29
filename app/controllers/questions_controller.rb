@@ -65,7 +65,6 @@ class QuestionsController < ApplicationController
 
   def check_admin
     if current_user.role == 'administrator'
-      p current_user
     else
       render json: { errors: 'Access denied.' }
     end
